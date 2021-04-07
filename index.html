@@ -10,7 +10,9 @@
     <div id="game"></div>
     <script type="text/javascript" src="https://rawgithub.com/craftyjs/Crafty/release/dist/crafty-min.js"></script>
     <script>
-      Crafty.init(500,350, document.getElementById('game'));
+        var w = window.innerWidth;
+        var h = window.innerHeight;
+      Crafty.init(w,h, document.getElementById('game'));
 
    /*  var s = Crafty.e('2D, DOM, Color').attr({x: 0, y: 20, w: 50, h: 50})
     .color('#F00');
@@ -45,7 +47,25 @@
     Crafty.addEvent(square, Crafty.stage.elem, "mousedown", square.onMouseDown);
 
    Crafty.addEvent(s, Crafty.stage.elem, "MouseOver", s.onMouseOver);*/
-   var hBox = Crafty.e("2D, Canvas, Color, Draggable")
+   Crafty.sprite("img/people.png", {people:[0,0,200,500]});
+
+   var people_entity = Crafty.e("2D, DOM, people, Draggable, Fourway");
+   people_entity.attr({
+    x: 0,
+    y: 0,
+    w:50,
+    h:100
+  }).dragDirection()
+  .bind('Dragging', function(evt) {
+    this.sprite(150, 0, 200, 500);
+    this.attr({w:50,h:100});
+  })
+  .bind('StopDrag', function(evt) {
+    this.sprite(0,0,200,500);
+    this.attr({w:50,h:100});
+  });
+
+   var hBox = Crafty.e("2D, Canvas, Color, Draggable, Fourway")
   .attr({
     x: 50,
     y: 50,
@@ -56,6 +76,8 @@
   .dragDirection()
   .bind('Dragging', function(evt) {
     this.color("black");
+  
+    
   })
   .bind('StopDrag', function(evt) {
     this.color("red");
