@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="game"></div>
+    <script type="text/javascript" src="https://rawgithub.com/craftyjs/Crafty/release/dist/crafty-min.js"></script>
+    <script>
+      Crafty.init(500,350, document.getElementById('game'));
+
+   /*  var s = Crafty.e('2D, DOM, Color').attr({x: 0, y: 20, w: 50, h: 50})
+    .color('#F00');
+    s.onMouseOver = function(e){
+    
+        console.log("enter")
+        this.color("orange");
+        
+  };
+    
+    
+     var square = Crafty.e('2D, DOM, Color, Fourway')
+            .attr({x: 110, y: 0, w: 100, h: 100})
+            .color('#000000')
+            .fourway(200);
+     square.bind("ChangeColor", function(eventData){
+         console.log("changecolor")
+        // `this` refers to the entity
+        this.color(eventData.color);
+       
+    })
+   
+// Trigger that event directly on the entity
+    square.trigger("ChangeColor", {color:"blue"});
+
+
+    square.onMouseDown = function(e) {
+        Crafty.log(e);
+        Crafty.log("miau");
+
+    }; 
+    Crafty.addEvent(square, Crafty.stage.elem, "mousedown", square.onMouseDown);
+
+   Crafty.addEvent(s, Crafty.stage.elem, "MouseOver", s.onMouseOver);*/
+   var hBox = Crafty.e("2D, Canvas, Color, Draggable")
+  .attr({
+    x: 50,
+    y: 50,
+    w: 50,
+    h: 50
+  })
+  .color("red")
+  .dragDirection()
+  .bind('Dragging', function(evt) {
+    this.color("black");
+  })
+  .bind('StopDrag', function(evt) {
+    this.color("red");
+  });
+    </script>
+  </body>
+</html>
