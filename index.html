@@ -12,9 +12,10 @@
     <div id="game"></div>
     <script type="text/javascript" src="https://rawgithub.com/craftyjs/Crafty/release/dist/crafty-min.js"></script>
     <script>
-      const socket = io("https://civitas-kechw.ondigitalocean.app:3000");
+const socket = io("https://civitas-kechw.ondigitalocean.app");
 
 socket.on("connect", () => {
+  console.log("succefull connect https://civitas-kechw.ondigitalocean.app");
   // either with send()
   socket.send("Hello!");
 
