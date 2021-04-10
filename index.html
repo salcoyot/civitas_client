@@ -5,57 +5,45 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js" integrity="sha384-LzhRnpGmQP+lOvWruF/lgkcqD+WDVt9fU3H4BWmwP5u5LTmkUGafMcpZKNObVMLU" crossorigin="anonymous"></script>
+
 </head>
 <body>
     <div id="game"></div>
     <script type="text/javascript" src="https://rawgithub.com/craftyjs/Crafty/release/dist/crafty-min.js"></script>
     <script>
+      const socket = io("ws://localhost:3000");
+
+socket.on("connect", () => {
+  // either with send()
+  socket.send("Hello!");
+
+  // or with emit() and custom event names
+  socket.emit("salutations", "Hello!", { "mr": "john" }, Uint8Array.from([1, 2, 3, 4]));
+});
+
+// handle the event sent with socket.send()
+socket.on("message", data => {
+  console.log(data);
+});
+
+// handle the event sent with socket.emit()
+socket.on("greetings", (elem1, elem2, elem3) => {
+  console.log(elem1, elem2, elem3);
+});
         var w = window.innerWidth;
         var h = window.innerHeight;
       Crafty.init(w,h, document.getElementById('game'));
 
-   /*  var s = Crafty.e('2D, DOM, Color').attr({x: 0, y: 20, w: 50, h: 50})
-    .color('#F00');
-    s.onMouseOver = function(e){
-    
-        console.log("enter")
-        this.color("orange");
-        
-  };
-    
-    
-     var square = Crafty.e('2D, DOM, Color, Fourway')
-            .attr({x: 110, y: 0, w: 100, h: 100})
-            .color('#000000')
-            .fourway(200);
-     square.bind("ChangeColor", function(eventData){
-         console.log("changecolor")
-        // `this` refers to the entity
-        this.color(eventData.color);
-       
-    })
-   
-// Trigger that event directly on the entity
-    square.trigger("ChangeColor", {color:"blue"});
-
-
-    square.onMouseDown = function(e) {
-        Crafty.log(e);
-        Crafty.log("miau");
-
-    }; 
-    Crafty.addEvent(square, Crafty.stage.elem, "mousedown", square.onMouseDown);
-
-   Crafty.addEvent(s, Crafty.stage.elem, "MouseOver", s.onMouseOver);*/
    Crafty.sprite("img/people.png", {people:[0,0,200,500]});
 
-   var people_entity = Crafty.e("2D, DOM, people, Draggable, Fourway");
+   var people_entity = Crafty.e("2D, DOM, people, Draggable, Fourway, Collision");
    people_entity.attr({
-    x: 0,
-    y: 0,
+    x: w/2,
+    y: h/2,
     w:50,
     h:100
-  }).dragDirection()
+  }).checkHits('Solid') .dragDirection()
   .bind('Dragging', function(evt) {
     this.sprite(150, 0, 200, 500);
     this.attr({w:50,h:100});
@@ -65,14 +53,15 @@
     this.attr({w:50,h:100});
   });
 
-   var hBox = Crafty.e("2D, Canvas, Color, Draggable, Fourway")
+   var hBox = Crafty.e("2D, Canvas, Color, Draggable, Fourway, Collision")
   .attr({
-    x: 50,
-    y: 50,
+    x: 100,
+    y: 100,
     w: 50,
     h: 50
   })
   .color("red")
+  .checkHits('Solid') 
   .dragDirection()
   .bind('Dragging', function(evt) {
     this.color("black");
@@ -82,6 +71,18 @@
   .bind('StopDrag', function(evt) {
     this.color("red");
   });
+  Crafty.background('#FFFFFF url(img/fondo1.png) no-repeat center center');
+  var myEntity = Crafty.e('2D, Canvas, Color, Mouse')
+.attr({x: 10, y: 10, w: 60, h: 40})
+.color('Blue')
+.bind('Click', function(MouseEvent){
+  alert('Open', MouseEvent);
+});
+
+myEntity.bind('MouseUp', function(e) {
+   if( e.mouseButton == Crafty.mouseButtons.RIGHT )
+       Crafty.log("Clicked right button");
+})
     </script>
   </body>
 </html>
