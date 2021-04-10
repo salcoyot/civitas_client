@@ -12,7 +12,7 @@
     <div id="game"></div>
     <script type="text/javascript" src="https://rawgithub.com/craftyjs/Crafty/release/dist/crafty-min.js"></script>
     <script>
-  /*     const socket = io("ws://localhost:3000");
+      const socket = io("https://civitas-kechw.ondigitalocean.app:3000");
 
 socket.on("connect", () => {
   // either with send()
@@ -30,7 +30,7 @@ socket.on("message", data => {
 // handle the event sent with socket.emit()
 socket.on("greetings", (elem1, elem2, elem3) => {
   console.log(elem1, elem2, elem3);
-}); */
+});
         var w = window.innerWidth;
         var h = window.innerHeight;
       Crafty.init(w,h, document.getElementById('game'));
