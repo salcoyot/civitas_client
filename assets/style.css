@@ -1,0 +1,12 @@
+
+body{
+    color: white;
+    background-color: 28a96b;
+}
+.card{
+    border-radius: 23px;
+    background: linear-gradient(225deg, #2bb572, #249860);
+    box-shadow:  -22px 22px 43px #218b58,
+                 22px -22px 43px #2fc77e;
+}
+
