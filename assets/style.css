@@ -1,12 +1,17 @@
 
 body{
     color: white;
-    background-color: 28a96b;
+    background-color: rgb(70, 70, 70);
+    margin: 5px 20px 5px 20px ; 
 }
 .card{
-    border-radius: 23px;
-    background: linear-gradient(225deg, #2bb572, #249860);
-    box-shadow:  -22px 22px 43px #218b58,
-                 22px -22px 43px #2fc77e;
-}
+    color: rgb(219, 219, 219);
+    border-radius: 10px;
+    background: linear-gradient(145deg, #727272, #6b6b6b);
+    border-radius: 9px;
+    background: #383838;
+    box-shadow:  20px 20px 40px #303030,
+                -20px -20px 40px #404040;
+     margin: 5px 10px 5px 10px ; 
 
+}

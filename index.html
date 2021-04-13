@@ -8,14 +8,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js" integrity="sha384-LzhRnpGmQP+lOvWruF/lgkcqD+WDVt9fU3H4BWmwP5u5LTmkUGafMcpZKNObVMLU" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-    <link href="assets/style.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link href="assets/style.css" rel="stylesheet" >
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 </head>
 <body>
   <h1>Civitas demo</h1>
-  <div>
-    <div class="col-lg-9 card" id="game"></div>
-    <div class="col-lg-3 card">Chat</div>
+  <div class="row">
+    <div class="col-lg-2 col-md-12 card">Info</div>
+    <div class="col-lg-6 col-md-12 card" id="game"></div>
+    <div class="col-lg-3 col-md-12 card">Chat</div>
   </div>
     <script type="text/javascript" src="https://rawgithub.com/craftyjs/Crafty/release/dist/crafty-min.js"></script>
     <script>
@@ -41,13 +42,13 @@ socket.on("greetings", (elem1, elem2, elem3) => {
 });
         var w = window.innerWidth;
         var h = window.innerHeight;
-      Crafty.init(w,h, document.getElementById('game'));
+    Crafty.init(w/2,h, document.getElementById('game'));
 
    Crafty.sprite("img/people.png", {people:[0,0,200,500]});
 
    var people_entity = Crafty.e("2D, DOM, people, Draggable, Fourway, Collision");
    people_entity.attr({
-    x: w/2,
+    x: w/4,
     y: h/2,
     w:50,
     h:100
