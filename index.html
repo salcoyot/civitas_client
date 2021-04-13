@@ -14,9 +14,13 @@
 <body>
   <h1>Civitas demo</h1>
   <div class="row">
-    <div class="col-lg-2 col-md-12 card">Info</div>
+    <div class="col-lg-2 col-md-12 card"><h3>Info</h3> </div>
     <div class="col-lg-6 col-md-12 card" id="game"></div>
-    <div class="col-lg-3 col-md-12 card">Chat</div>
+    <div class="col-lg-3 col-md-12 card"> 
+      <h3>Chat</h3>
+        <input type="text" name="" id="chatinput">
+        <div id="chat"></div>
+     </div>
   </div>
     <script type="text/javascript" src="https://rawgithub.com/craftyjs/Crafty/release/dist/crafty-min.js"></script>
     <script>
@@ -34,6 +38,13 @@ socket.on("connect", () => {
 // handle the event sent with socket.send()
 socket.on("message", data => {
   console.log(data);
+  $('#chat').append(data.message);
+});
+
+$('#chatinput').change(function(){
+  alert("The text has been changed: "+$(this).val());
+  socket.emit("message", $(this).val());
+  $(this).val("")
 });
 
 // handle the event sent with socket.emit()
@@ -82,11 +93,11 @@ socket.on("greetings", (elem1, elem2, elem3) => {
   });
   Crafty.background('#FFFFFF url(img/fondo1.png) no-repeat center center');
   var myEntity = Crafty.e('2D, Canvas, Color, Mouse')
-.attr({x: 10, y: 10, w: 60, h: 40})
-.color('Blue')
-.bind('Click', function(MouseEvent){
-  alert('Open', MouseEvent);
-});
+    .attr({x: 10, y: 10, w: 60, h: 40})
+    .color('Blue')
+    .bind('Click', function(MouseEvent){
+      alert('Open', MouseEvent);
+    });
 
 myEntity.bind('MouseUp', function(e) {
    if( e.mouseButton == Crafty.mouseButtons.RIGHT )
