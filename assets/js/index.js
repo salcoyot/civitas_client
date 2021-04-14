@@ -75,7 +75,7 @@ $('#myModal').modal('show')
     this.attr({w:50,h:100});
   }).setName("Prototipo");
 
-  Crafty.viewport.follow(people_entity, 0, 0);
+ 
 
   var  me = people_entity.clone();
   me.setName(user).attr({
@@ -83,7 +83,9 @@ $('#myModal').modal('show')
     y: 200,
     w:50,
     h:100
-  })
+  });
+  Crafty.viewport.follow(me, 0, 0);
+  people_entity.destroy()
    /* var hBox = Crafty.e("2D, Canvas, Color, Draggable, Fourway, Collision")
   .attr({
     x: 100,
