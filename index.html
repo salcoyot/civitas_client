@@ -14,7 +14,8 @@
 <body>
   <h1>Civitas demo</h1>
   <div class="row">
-    <div class="col-lg-2 col-md-12 card"><h3>Info</h3> </div>
+    <div class="col-lg-2 col-md-12 card"><h3>Info</h3>
+    <input type="text" name="" id="userinput"> </div>
     <div class="col-lg-6 col-md-12 card" id="game"></div>
     <div class="col-lg-3 col-md-12 card"> 
       <h3>Chat</h3>
@@ -38,13 +39,22 @@ socket.on("connect", () => {
 // handle the event sent with socket.send()
 socket.on("message", data => {
   console.log(data);
-  $('#chat').append(data.message +"<br>");
+  $('#chat').append("<b>"+data.user+"<b/>"+data.message +"<br>");
 });
-
+socket.on("position", (data) => {
+    console.log(data);
+    
+    
+  });
+var message = "";
+var user = "Unknow";
+ /*  socket.emit("position", {"position":data}); */
 $('#chatinput').change(function(){
-  
-  socket.emit("message", $(this).val());
+  socket.emit("message", {"message":$(this).val(), "user":user});
   $(this).val("")
+});
+$('#userinput').change(function(){
+  user = $(this).val();
 });
 
 // handle the event sent with socket.emit()
