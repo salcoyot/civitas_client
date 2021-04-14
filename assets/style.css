@@ -15,3 +15,21 @@ body{
      margin: 5px 10px 5px 10px ; 
 
 }
+.btn-primary{
+    background: linear-gradient(145deg, #727272, #6b6b6b);
+    border-radius: 9px;
+   color:rgb(70, 70, 70);
+    border-color: unset;
+    border-radius: 50px;
+background: linear-gradient(145deg, #ffffff, #e6e6e6);
+
+}
+.btn-primary:hover, .btn-primary:focus{
+    background: linear-gradient(145deg, #727272, #6b6b6b);
+    border-radius: 9px;
+    border-color: unset;
+    color:rgb(43, 43, 43);
+    border-radius: 50px;
+background: linear-gradient(145deg, #ffffff, #e6e6e6);
+
+}

@@ -14,8 +14,36 @@
 <body>
   <h1>Civitas demo</h1>
   <div class="row">
-    <div class="col-lg-2 col-md-12 card"><h3>Info</h3>
-    <input type="text" name="" id="userinput"> </div>
+    <div class="col-lg-2 col-md-12 card">
+      <h3>Info</h3>
+      
+     <b>Usuario: </b> <div id="user"></div>
+          <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+      Cambiar nombre
+    </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Nombre de usuario</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input type="text" name="" id="userinput">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="saveuser" data-dismiss="modal">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+   </div>
     <div class="col-lg-6 col-md-12 card" id="game"></div>
     <div class="col-lg-3 col-md-12 card"> 
       <h3>Chat</h3>
@@ -55,12 +83,19 @@ $('#chatinput').change(function(){
 });
 $('#userinput').change(function(){
   user = $(this).val();
+  $("#user").text(user)
 });
+$('#saveuser').click(function(){
+  user = $("#userinput").val();
+  $("#user").text(user)
+});
+
 
 // handle the event sent with socket.emit()
 socket.on("greetings", (elem1, elem2, elem3) => {
   console.log(elem1, elem2, elem3);
 });
+$('#myModal').modal('show')
         var w = window.innerWidth;
         var h = window.innerHeight;
     Crafty.init(w/2,h, document.getElementById('game'));
