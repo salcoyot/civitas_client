@@ -61,19 +61,7 @@ $('#myModal').modal('show')
     y: 100,
     w:50,
     h:100
-  }).checkHits('Solid').dragDirection()
-  .bind('Dragging', function(evt) {
-    
-    this.sprite(150, 0, 200, 500);
-    this.attr({w:50,h:100});
-  })
-  .bind('StopDrag', function(evt) {
-  
-    socket.emit("position", {"user":user,"position":{"x":this.x, "y":this.y}});
-    console.log({"x":this.x, "y":this.y});
-    this.sprite(0,0,200,500);
-    this.attr({w:50,h:100});
-  }).setName("Prototipo");
+  }).checkHits('Solid').setName("Prototipo");
 
  
 
@@ -85,7 +73,23 @@ $('#myModal').modal('show')
     h:100
   });
   Crafty.viewport.follow(me, 0, 0);
-  people_entity.destroy()
+  people_entity.destroy();
+
+  if (me.getName() === user){
+      me.dragDirection()
+      .bind('Dragging', function(evt) {
+        
+        this.sprite(150, 0, 200, 500);
+        this.attr({w:50,h:100});
+      })
+      .bind('StopDrag', function(evt) {
+      
+        socket.emit("position", {"user":user,"position":{"x":this.x, "y":this.y}});
+        console.log({"x":this.x, "y":this.y});
+        this.sprite(0,0,200,500);
+        this.attr({w:50,h:100});
+      });
+  }
    /* var hBox = Crafty.e("2D, Canvas, Color, Draggable, Fourway, Collision")
   .attr({
     x: 100,
