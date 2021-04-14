@@ -72,7 +72,7 @@ socket.on("message", data => {
 socket.on("position", (data) => {
     console.log(data);
     people_entity.x = data.position.x;
-    people_entity.x = data.position.y;
+    people_entity.y = data.position.y;
   });
 var message = "";
 var user = "Unknow";
