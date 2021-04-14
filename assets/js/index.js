@@ -11,13 +11,17 @@ socket.on("connect", () => {
 });
 
 socket.on("newuser", (data) => {
+    console.log(data);
+    console.log("new user");
     users.push(people_entity.clone().setName(data.user).attr({
         x: data.position.x,
         y: data.position.y
-    }))
+    }));
+    console.log(users)
   /*   people_entity.x = data.position.x;
     people_entity.y = data.position.y; */
   });
+
 // handle the event sent with socket.send()
 socket.on("message", data => {
   console.log(data);
