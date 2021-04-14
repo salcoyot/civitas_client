@@ -10,11 +10,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <link href="assets/style.css" rel="stylesheet" >
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-</head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.1.3/pixi.min.js"></script>
+  </head>
 <body>
   <h1>Civitas demo</h1>
   <div class="row">
-    <div class="col-lg-2 col-md-12 card">
+    <div class="col-lg-2 col-md-12 col-sm-12 card">
       <h3>Info</h3>
       
      <b>Usuario: </b> <div id="user"></div>
@@ -44,112 +45,17 @@
     </div>
   </div>
    </div>
-    <div class="col-lg-6 col-md-12 card" id="game"></div>
-    <div class="col-lg-3 col-md-12 card"> 
+    <div class="col-lg-6 col-md-12 col-sm-12 card" id="game"></div>
+    <div class="col-lg-3 col-md-12 col-sm-12  card"> 
       <h3>Chat</h3>
         <input type="text" name="" id="chatinput">
         <div id="chat"></div>
      </div>
   </div>
+
     <script type="text/javascript" src="https://rawgithub.com/craftyjs/Crafty/release/dist/crafty-min.js"></script>
-    <script>
-const socket = io("https://civitas-kechw.ondigitalocean.app");
-
-socket.on("connect", () => {
-  console.log("succefull connect https://civitas-kechw.ondigitalocean.app");
-  // either with send()
-  socket.send("Hello!");
-
-  // or with emit() and custom event names
- /*  socket.emit("salutations", "Hello!", { "mr": "john" }, Uint8Array.from([1, 2, 3, 4])); */
-});
-
-// handle the event sent with socket.send()
-socket.on("message", data => {
-  console.log(data);
-  $('#chat').append("<b>"+data.user+":</b> "+data.message +"<br>");
-});
-socket.on("position", (data) => {
-    console.log(data);
-    people_entity.x = data.position.x;
-    people_entity.y = data.position.y;
-  });
-var message = "";
-var user = "Unknow";
- /*  socket.emit("position", {"position":data}); */
-$('#chatinput').change(function(){
-  socket.emit("message", {"message":$(this).val(), "user":user});
-  $(this).val("")
-});
-$('#userinput').change(function(){
-  user = $(this).val();
-  $("#user").text(user)
-});
-$('#saveuser').click(function(){
-  user = $("#userinput").val();
-  $("#user").text(user)
-});
-
-
-// handle the event sent with socket.emit()
-
-$('#myModal').modal('show')
-        var w = window.innerWidth;
-        var h = window.innerHeight;
-    Crafty.init(w/2,h, document.getElementById('game'));
-
-   Crafty.sprite("img/people.png", {people:[0,0,200,500]});
-
-   var people_entity = Crafty.e("2D, DOM, people, Draggable, Fourway, Collision");
-   people_entity.attr({
-    x: w/4,
-    y: h/2,
-    w:50,
-    h:100
-  }).checkHits('Solid').dragDirection()
-  .bind('Dragging', function(evt) {
-    
-    this.sprite(150, 0, 200, 500);
-    this.attr({w:50,h:100});
-  })
-  .bind('StopDrag', function(evt) {
-    socket.emit("position", {"user":user,"position":{"x":this.x, "y":this.y}});
-    console.log({"x":this.x, "y":this.y});
-    this.sprite(0,0,200,500);
-    this.attr({w:50,h:100});
-  });
-
-   var hBox = Crafty.e("2D, Canvas, Color, Draggable, Fourway, Collision")
-  .attr({
-    x: 100,
-    y: 100,
-    w: 50,
-    h: 50
-  })
-  .color("red")
-  .checkHits('Solid') 
-  .dragDirection()
-  .bind('Dragging', function(evt) {
-    this.color("black");
-  
-    
-  })
-  .bind('StopDrag', function(evt) {
-    this.color("red");
-  });
-  Crafty.background('#FFFFFF url(img/fondo1.png) no-repeat center center');
-  var myEntity = Crafty.e('2D, Canvas, Color, Mouse')
-    .attr({x: 10, y: 10, w: 60, h: 40})
-    .color('Blue')
-    .bind('Click', function(MouseEvent){
-      alert('Open', MouseEvent);
-    });
-
-myEntity.bind('MouseUp', function(e) {
-   if( e.mouseButton == Crafty.mouseButtons.RIGHT )
-       Crafty.log("Clicked right button");
-});
-
+    <script type="text/javascript" src="assets/js/index.js"></script>
+    <script type="text/javascript" >
 
     </script>
   </body>
