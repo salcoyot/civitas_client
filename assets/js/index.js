@@ -24,9 +24,9 @@ socket.on("message", data => {
   $('#chat').append("<b>"+data.user+":</b> "+data.message +"<br>");
 });
 socket.on("position", (data) => {
-    resultado = users.find( user => user.nombre === data.user );
+    resultado = users.find( user => user.user === data.user );
     console.log(data);
-    console.log(data);
+    console.log(resultado);
     resultado.x = data.position.x;
     resultado.y = data.position.y;
   });
