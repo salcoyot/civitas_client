@@ -39,7 +39,7 @@ socket.on("connect", () => {
 // handle the event sent with socket.send()
 socket.on("message", data => {
   console.log(data);
-  $('#chat').append("<b>"+data.user+"<b/>"+data.message +"<br>");
+  $('#chat').append("<b>"+data.user+":</b> "+data.message +"<br>");
 });
 socket.on("position", (data) => {
     console.log(data);
