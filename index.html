@@ -32,7 +32,7 @@ socket.on("connect", () => {
   socket.send("Hello!");
 
   // or with emit() and custom event names
-  socket.emit("salutations", "Hello!", { "mr": "john" }, Uint8Array.from([1, 2, 3, 4]));
+ /*  socket.emit("salutations", "Hello!", { "mr": "john" }, Uint8Array.from([1, 2, 3, 4])); */
 });
 
 // handle the event sent with socket.send()
@@ -42,7 +42,7 @@ socket.on("message", data => {
 });
 
 $('#chatinput').change(function(){
-  alert("The text has been changed: "+$(this).val());
+  
   socket.emit("message", $(this).val());
   $(this).val("")
 });
