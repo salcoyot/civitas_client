@@ -71,8 +71,6 @@ socket.on("message", data => {
 });
 socket.on("position", (data) => {
     console.log(data);
-    
-    
   });
 var message = "";
 var user = "Unknow";
@@ -92,9 +90,7 @@ $('#saveuser').click(function(){
 
 
 // handle the event sent with socket.emit()
-socket.on("greetings", (elem1, elem2, elem3) => {
-  console.log(elem1, elem2, elem3);
-});
+
 $('#myModal').modal('show')
         var w = window.innerWidth;
         var h = window.innerHeight;
@@ -108,12 +104,15 @@ $('#myModal').modal('show')
     y: h/2,
     w:50,
     h:100
-  }).checkHits('Solid') .dragDirection()
+  }).checkHits('Solid').dragDirection()
   .bind('Dragging', function(evt) {
+    
     this.sprite(150, 0, 200, 500);
     this.attr({w:50,h:100});
   })
   .bind('StopDrag', function(evt) {
+    socket.emit("position", {"user":user,"position":{"x":this.x, "y":this.y}});
+    console.log({"x":this.x, "y":this.y});
     this.sprite(0,0,200,500);
     this.attr({w:50,h:100});
   });
@@ -147,7 +146,9 @@ $('#myModal').modal('show')
 myEntity.bind('MouseUp', function(e) {
    if( e.mouseButton == Crafty.mouseButtons.RIGHT )
        Crafty.log("Clicked right button");
-})
+});
+
+
     </script>
   </body>
 </html>
