@@ -1,14 +1,20 @@
 const socket = io("https://civitas-kechw.ondigitalocean.app");
-
+var users =[];
 socket.on("connect", () => {
   console.log("succefull connect https://civitas-kechw.ondigitalocean.app");
   // either with send()
   socket.send("Hello!");
-
+  socket.emit("newuser", {"user":user,"position":{"x":this.x, "y":this.y}});
+  
   // or with emit() and custom event names
  /*  socket.emit("salutations", "Hello!", { "mr": "john" }, Uint8Array.from([1, 2, 3, 4])); */
 });
 
+socket.on("newuser", (data) => {
+    users.push(people_entity.clone());
+    people_entity.x = data.position.x;
+    people_entity.y = data.position.y;
+  });
 // handle the event sent with socket.send()
 socket.on("message", data => {
   console.log(data);
