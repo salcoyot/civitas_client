@@ -11,9 +11,12 @@ socket.on("connect", () => {
 });
 
 socket.on("newuser", (data) => {
-    users.push(people_entity.clone());
-    people_entity.x = data.position.x;
-    people_entity.y = data.position.y;
+    users.push(people_entity.clone().setName(data.user).attr({
+        x: data.position.x,
+        y: data.position.y
+    }))
+  /*   people_entity.x = data.position.x;
+    people_entity.y = data.position.y; */
   });
 // handle the event sent with socket.send()
 socket.on("message", data => {
@@ -21,9 +24,11 @@ socket.on("message", data => {
   $('#chat').append("<b>"+data.user+":</b> "+data.message +"<br>");
 });
 socket.on("position", (data) => {
+    resultado = users.find( user => user.nombre === data.user );
     console.log(data);
-    people_entity.x = data.position.x;
-    people_entity.y = data.position.y;
+    console.log(data);
+    resultado.x = data.position.x;
+    resultado.y = data.position.y;
   });
 var message = "";
 var user = "Unknow";
