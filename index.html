@@ -38,7 +38,7 @@ socket.on("connect", () => {
 // handle the event sent with socket.send()
 socket.on("message", data => {
   console.log(data);
-  $('#chat').append(data.message);
+  $('#chat').append(data.message +"<br>");
 });
 
 $('#chatinput').change(function(){
