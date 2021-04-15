@@ -11,13 +11,16 @@ socket.on("connect", () => {
 });
 
 socket.on("newuser", (data) => {
-    console.log(data);
+   
     console.log("new user");
-    users.push(people_entity.clone().setName(data.user).attr({
+   
+    usertemp = people_entity.clone().setName(data.user).attr({
         x: data.position.x,
         y: data.position.y
-    }));
+    });
+    users.push(usertemp);
     console.log(users)
+
   /*   people_entity.x = data.position.x;
     people_entity.y = data.position.y; */
   });
@@ -27,6 +30,7 @@ socket.on("message", data => {
   console.log(data);
   $('#chat').append("<b>"+data.user+":</b> "+data.message +"<br>");
 });
+
 socket.on("position", (data) => {
    //resultado = users.find( user => user.user === data.user );
     console.log(data);
