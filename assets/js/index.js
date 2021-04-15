@@ -20,8 +20,9 @@ socket.on("newuser", (data) => {
     });
     users.push(usertemp);
     console.log(users)
-    socket.emit("newuser", {"user":user,"position":{"x":me.x, "y":me.y}});
-
+   
+    //socket.emit("newuser", {"user":user,"position":{"x":me.x, "y":me.y}});
+    usertemp = null;
   /*   people_entity.x = data.position.x;
     people_entity.y = data.position.y; */
   });
