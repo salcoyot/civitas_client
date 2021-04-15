@@ -47,7 +47,7 @@ socket.on("position", (data) => {
 
   });
   socket.on("connectedlist", data => {
-    console.log("connectedlist: ");
+    console.log("connectedlist: "); 
     console.log(data);
     //$('#chat').append("<b>"+data.user+":</b> "+data.message +"<br>");
   });
