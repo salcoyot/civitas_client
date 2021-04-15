@@ -3,8 +3,8 @@ var users =[];
 socket.on("connect", () => {
   console.log("succefull connect https://civitas-kechw.ondigitalocean.app");
   // either with send()
-  socket.send("Hello!");
-  socket.emit("newuser", {"user":user,"position":{"x":this.x, "y":this.y}});
+  //socket.send("Hello!");
+  
   
   // or with emit() and custom event names
  /*  socket.emit("salutations", "Hello!", { "mr": "john" }, Uint8Array.from([1, 2, 3, 4])); */
@@ -49,6 +49,7 @@ $('#userinput').change(function(){
   user = $(this).val();
   me.setName(user)
   $("#user").text(user)
+  socket.emit("newuser", {"user":user,"position":{"x":me.x, "y":me.y}});
 });
 $('#saveuser').click(function(){
   user = $("#userinput").val();
