@@ -20,6 +20,7 @@ socket.on("newuser", (data) => {
     });
     users.push(usertemp);
     console.log(users)
+    socket.emit("newuser", {"user":user,"position":{"x":me.x, "y":me.y}});
 
   /*   people_entity.x = data.position.x;
     people_entity.y = data.position.y; */
@@ -32,11 +33,17 @@ socket.on("message", data => {
 });
 
 socket.on("position", (data) => {
-   //resultado = users.find( user => user.user === data.user );
-    console.log(data);
-    //console.log(resultado);
-    //resultado.x = data.position.x;
-    //resultado.y = data.position.y;
+    if(resultado = users.find( user => user._entityName === data.user )){
+        resultado = users.find( user => user._entityName === data.user );
+        console.log(data);
+        console.log(resultado);
+        resultado.x = data.position.x;
+        resultado.y = data.position.y;
+    }else{
+        console.log("el usurio no esta agregado");
+    }
+
+
   });
 var message = "";
 var user = "Unknow";
