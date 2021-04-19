@@ -35,6 +35,28 @@ socket.on("newuser", (data) => {
     .text(function () { return this.getName() })
     .textColor('black')
     .dynamicTextGeneration(true)
+    .checkHits('Solid') // check for collisions with entities that have the Solid component in each frame
+    .bind("HitOn", function(hitData) {
+        Crafty.log("Collision with Solid entity occurred for the first time.");
+        //Crafty.log(hitData);
+        Crafty.log("name.");
+        Crafty.log(hitData[0].obj.getName()  );
+        const options = {
+          roomName: 'Civitas_meet'+me.getName()+"-"+hitData[0].obj.getName() ,
+          width: w/4,
+          height: h/3,
+          parentNode: document.querySelector('#meet'),
+          userInfo: {
+            email: 'email@jitsiexamplemail.com',
+            displayName: user
+          }
+         };
+         const api = new JitsiMeetExternalAPI(domain, options);
+    
+    })
+    .bind("HitOff", function(comp) {
+        Crafty.log("Collision with Solid entity ended.");
+    })
 
     );
     console.log("users")
@@ -91,7 +113,7 @@ $('#saveuser').click(function(){
   $("#user").text(user)
   me.setName(user)
 
-  const options = {
+ /*  const options = {
     roomName: 'Civitas meet',
     width: w/4,
     height: h/3,
@@ -101,7 +123,7 @@ $('#saveuser').click(function(){
       displayName: user
     }
    };
-   const api = new JitsiMeetExternalAPI(domain, options);
+   const api = new JitsiMeetExternalAPI(domain, options); */
 });
 
 
