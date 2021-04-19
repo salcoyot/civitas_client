@@ -1,28 +1,47 @@
+var w = window.innerWidth;
+var h = window.innerHeight;
 const socket = io("https://civitas-kechw.ondigitalocean.app");
 var users =[];
+
+const domain = 'meet.jit.si';
+
+
+
 socket.on("connect", () => {
   console.log("succefull connect https://civitas-kechw.ondigitalocean.app");
   // either with send()
   //socket.send("Hello!");
   
-  
+ 
   // or with emit() and custom event names
  /*  socket.emit("salutations", "Hello!", { "mr": "john" }, Uint8Array.from([1, 2, 3, 4])); */
 });
 
 socket.on("newuser", (data) => {
+  
    
     console.log("new user");
    
-    usertemp = people_entity.clone().setName(data.user).attr({
+    
+    users.push(
+      Crafty.e("2D, DOM, people, Fourway, Collision, Solid, Controllable").setName(data.user).attr({
         x: data.position.x,
-        y: data.position.y
-    });
-    users.push(usertemp);
+        y: data.position.y,
+
+          w:50,
+          h:100
+    }).addComponent("2D, DOM, Text, Motion")
+    .attr({ x: 100, y: 100, vx: 10 })
+    .text(function () { return this.getName() })
+    .textColor('black')
+    .dynamicTextGeneration(true)
+
+    );
+    console.log("users")
     console.log(users)
    
     //socket.emit("newuser", {"user":user,"position":{"x":me.x, "y":me.y}});
-    usertemp = null;
+
   /*   people_entity.x = data.position.x;
     people_entity.y = data.position.y; */
   });
@@ -36,7 +55,7 @@ socket.on("message", data => {
 socket.on("position", (data) => {
     if(resultado = users.find( user => user._entityName === data.user )){
         resultado = users.find( user => user._entityName === data.user );
-        console.log(data);
+        //console.log(data);
         console.log(resultado);
         resultado.x = data.position.x;
         resultado.y = data.position.y;
@@ -50,6 +69,7 @@ socket.on("position", (data) => {
   socket.on("connectedlist", data => {
     console.log("connectedlist: "); 
     console.log(data.map);
+    console.log(data);
    
     //$('#chat').append("<b>"+data.user+":</b> "+data.message +"<br>");
   });
@@ -70,14 +90,25 @@ $('#saveuser').click(function(){
   user = $("#userinput").val();
   $("#user").text(user)
   me.setName(user)
+
+  const options = {
+    roomName: 'Civitas meet',
+    width: w/4,
+    height: h/3,
+    parentNode: document.querySelector('#meet'),
+    userInfo: {
+      email: 'email@jitsiexamplemail.com',
+      displayName: user
+    }
+   };
+   const api = new JitsiMeetExternalAPI(domain, options);
 });
 
 
 // handle the event sent with socket.emit()
 
 $('#myModal').modal('show')
-        var w = window.innerWidth;
-        var h = window.innerHeight;
+     
         if(w > h){
           Crafty.init(w/2,h, document.getElementById('game'));
         }else{
@@ -90,41 +121,44 @@ $('#myModal').modal('show')
   
    Crafty.sprite("img/people.png", {people:[0,0,200,500]});
 
-   var people_entity = Crafty.e("2D, DOM, people, Draggable, Fourway, Collision, Solid, Controllable");
-   people_entity.attr({
+   var me = Crafty.e("2D, DOM, people, Draggable, Fourway, Collision, Solid, Controllable");
+   me.attr({
     x: 100,
     y: 100,
     w:50,
     h:100
-  }).checkHits('Solid').setName("Prototipo");
+  }).checkHits('Solid').setName("");
 
  
 
-  var  me = people_entity.clone();
+
   me.setName(user).attr({
     x: 200,
     y: 200,
     w:50,
     h:100
-  });
+  }).addComponent("2D, DOM, Text, Motion")
+  .attr({ x: -100, y: 100, vx: 10 })
+  .text(function () { return this.getName()  })
+  .textColor('black')
+  .dynamicTextGeneration(true);
   Crafty.viewport.follow(me, 0, 0);
-  people_entity.destroy();
 
-  if (me.getName() === user){
-      me.dragDirection()
-      .bind('Dragging', function(evt) {
-        
-        this.sprite(150, 0, 200, 500);
-        this.attr({w:50,h:100});
-      })
-      .bind('StopDrag', function(evt) {
-      
-        socket.emit("position", {"user":user,"position":{"x":this.x, "y":this.y}});
-        console.log({"x":this.x, "y":this.y});
-        this.sprite(0,0,200,500);
-        this.attr({w:50,h:100});
-      });
-  }
+
+   me.dragDirection()
+  .bind('Dragging', function(evt) {
+    
+    this.sprite(150, 0, 200, 500);
+    this.attr({w:50,h:100});
+  })
+  .bind('StopDrag', function(evt) {
+  
+    socket.emit("position", {"user":user,"position":{"x":this.x, "y":this.y}});
+    console.log({"x":this.x, "y":this.y});
+    this.sprite(0,0,200,500);
+    this.attr({w:50,h:100});
+  });
+ 
    /* var hBox = Crafty.e("2D, Canvas, Color, Draggable, Fourway, Collision")
   .attr({
     x: 100,

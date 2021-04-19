@@ -11,11 +11,12 @@
     <link href="assets/style.css" rel="stylesheet" >
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.1.3/pixi.min.js"></script>
+    <script src='https://meet.jit.si/external_api.js'></script>
   </head>
 <body>
   <h1>Civitas demo</h1>
   <div class="row">
-    <div class="col-lg-2 col-md-12 col-sm-12 card">
+    <div class="col-lg-3 col-md-12 col-sm-12 card">
       <h3>Info</h3>
       
      <b>Usuario: </b> <div id="user"></div>
@@ -23,6 +24,9 @@
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
       Cambiar nombre
     </button>
+    <br>
+    <div  id="meet"></div>
+   
 
   <!-- Modal -->
   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true">
@@ -46,11 +50,14 @@
   </div>
    </div>
     <div class="col-lg-6 col-md-12 col-sm-12 card" id="game"></div>
-    <div class="col-lg-3 col-md-12 col-sm-12  card"> 
+    <div class="col-lg-2 col-md-12 col-sm-12  card"> 
+      <div id="meet"></div>
       <h3>Chat</h3>
         <input type="text" name="" id="chatinput">
-        <div id="chat"></div>
+        <div class="col-12" id="chat"></div>
+        
      </div>
+     
   </div>
 
     <script type="text/javascript" src="https://rawgithub.com/craftyjs/Crafty/release/dist/crafty-min.js"></script>
