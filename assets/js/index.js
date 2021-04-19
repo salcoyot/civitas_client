@@ -45,7 +45,7 @@ socket.on("newuser", (data) => {
           roomName: 'Civitas_meet_'+me.getName(),
           width: w/4,
           height: h/3,
-          parentNode: document.querySelector('#personal_meet'),
+          parentNode: document.querySelector('#personalmeet'),
           userInfo: {
             email: 'email@jitsiexamplemail.com',
             displayName: user
