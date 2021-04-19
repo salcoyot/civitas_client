@@ -42,10 +42,10 @@ socket.on("newuser", (data) => {
         Crafty.log("name.");
         Crafty.log(hitData[0].obj.getName()  );
         const options = {
-          roomName: 'Civitas_meet'+me.getName()+"-"+hitData[0].obj.getName() ,
+          roomName: 'Civitas_meet_'+me.getName(),
           width: w/4,
           height: h/3,
-          parentNode: document.querySelector('#meet'),
+          parentNode: document.querySelector('#personal_meet'),
           userInfo: {
             email: 'email@jitsiexamplemail.com',
             displayName: user
@@ -113,7 +113,7 @@ $('#saveuser').click(function(){
   $("#user").text(user)
   me.setName(user)
 
- /*  const options = {
+  const options = {
     roomName: 'Civitas meet',
     width: w/4,
     height: h/3,
@@ -123,7 +123,7 @@ $('#saveuser').click(function(){
       displayName: user
     }
    };
-   const api = new JitsiMeetExternalAPI(domain, options); */
+   const api = new JitsiMeetExternalAPI(domain, options);
 });
 
 
