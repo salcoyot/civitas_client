@@ -176,7 +176,7 @@ $('#saveuser').click(function(){
        HIDE_INVITE_MORE_HEADER: true,
        TOOLBAR_BUTTONS: [
         'microphone', 'camera', 'closedcaptions', 
-         'hangup', 'profile', 'chat', 
+          'profile', 'chat', 
          'raisehand',
         'videoquality', 'filmstrip', 
         'tileview', 'videobackgroundblur',  'mute-everyone'
