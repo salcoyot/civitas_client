@@ -160,6 +160,7 @@ $('#saveuser').click(function(){
     disableProfile: true,
     // Hides lobby button
     hideLobbyButton: false,
+    prejoinPageEnabled: false,
 
     // Require users to always specify a display name.
     requireDisplayName: false
