@@ -37,6 +37,7 @@ socket.on("newuser", (data) => {
     .dynamicTextGeneration(true)
     .checkHits('Solid') // check for collisions with entities that have the Solid component in each frame
     .bind("HitOn", function(hitData) {
+      $("#meet").empty();
         Crafty.log("Collision with Solid entity occurred for the first time.");
         //Crafty.log(hitData);
         Crafty.log("name.");
@@ -45,13 +46,45 @@ socket.on("newuser", (data) => {
           roomName: 'Civitas_meet_'+me.getName(),
           width: w/4,
           height: h/3,
-          parentNode: document.querySelector('#personalmeet'),
+          parentNode: document.querySelector('#meet'),
           userInfo: {
             email: 'email@jitsiexamplemail.com',
             displayName: user
-          }
+          },
+          configOverwrite: { 
+            enableWelcomePage: false,
+            disableProfile: true,
+            // Hides lobby button
+            hideLobbyButton: false,
+        
+            // Require users to always specify a display name.
+            requireDisplayName: false
+            },
+            interfaceConfigOverwrite: {
+               DEFAULT_BACKGROUND: '#383838',
+               DISABLE_DOMINANT_SPEAKER_INDICATOR: true,
+               DISPLAY_WELCOME_FOOTER: false,
+               DISPLAY_WELCOME_PAGE_ADDITIONAL_CARD: false,
+               DISPLAY_WELCOME_PAGE_CONTENT: false,
+               DISPLAY_WELCOME_PAGE_TOOLBAR_ADDITIONAL_CONTENT: false,
+               SHOW_CHROME_EXTENSION_BANNER: false,
+               TOOLBAR_ALWAYS_VISIBLE: false,
+               HIDE_INVITE_MORE_HEADER: true,
+               TOOLBAR_BUTTONS: [
+                'microphone', 'camera', 'closedcaptions', 
+                 'hangup', 'profile', 'chat', 
+                 'raisehand',
+                'videoquality', 'filmstrip', 
+                'tileview', 'videobackgroundblur',  'mute-everyone'
+                
+               ],
+              },
          };
-         const api = new JitsiMeetExternalAPI(domain, options);
+         
+         const api = new JitsiMeetExternalAPI(domain, options); 
+         const iframe = api.getIFrame();
+         iframe.attr("scrolling ='yes'");
+ 
     
     })
     .bind("HitOff", function(comp) {
@@ -113,7 +146,7 @@ $('#saveuser').click(function(){
   $("#user").text(user)
   me.setName(user)
 
-  const options = {
+   const options = {
     roomName: 'Civitas meet',
     width: w/4,
     height: h/3,
@@ -121,9 +154,49 @@ $('#saveuser').click(function(){
     userInfo: {
       email: 'email@jitsiexamplemail.com',
       displayName: user
-    }
+    },
+    configOverwrite: { 
+    enableWelcomePage: false,
+    disableProfile: true,
+    // Hides lobby button
+    hideLobbyButton: false,
+
+    // Require users to always specify a display name.
+    requireDisplayName: false
+    },
+    interfaceConfigOverwrite: {
+       DEFAULT_BACKGROUND: '#383838',
+       DISABLE_DOMINANT_SPEAKER_INDICATOR: true,
+       DISPLAY_WELCOME_FOOTER: false,
+       DISPLAY_WELCOME_PAGE_ADDITIONAL_CARD: false,
+       DISPLAY_WELCOME_PAGE_CONTENT: false,
+       DISPLAY_WELCOME_PAGE_TOOLBAR_ADDITIONAL_CONTENT: false,
+       SHOW_CHROME_EXTENSION_BANNER: false,
+       TOOLBAR_ALWAYS_VISIBLE: false,
+       HIDE_INVITE_MORE_HEADER: true,
+       TOOLBAR_BUTTONS: [
+        'microphone', 'camera', 'closedcaptions', 
+         'hangup', 'profile', 'chat', 
+         'raisehand',
+        'videoquality', 'filmstrip', 
+        'tileview', 'videobackgroundblur',  'mute-everyone'
+        
+       ],
+      },
    };
-   const api = new JitsiMeetExternalAPI(domain, options);
+/* Settings originales 
+   TOOLBAR_BUTTONS: [
+    'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
+    'fodeviceselection', 'hangup', 'profile', 'chat', 'recording',
+    'livestreaming', 'etherpad', 'sharedvideo', 'settings', 'raisehand',
+    'videoquality', 'filmstrip', 'invite', 'feedback', 'stats', 'shortcuts',
+    'tileview', 'videobackgroundblur', 'download', 'help', 'mute-everyone',
+    'e2ee', 'security'
+   ], */
+   const api = new JitsiMeetExternalAPI(domain, options); 
+  
+    const iframe = api.getIFrame();
+    iframe.scroll();
 });
 
 
