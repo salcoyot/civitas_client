@@ -4,7 +4,7 @@ const socket = io("https://civitas-kechw.ondigitalocean.app");
 var users =[];
 
 const domain = 'meet.jit.si';
-const myid ="";
+var myid ="";
  
 
 socket.on("connect", () => {
