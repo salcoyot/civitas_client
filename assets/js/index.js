@@ -36,11 +36,11 @@ socket.on("connect", () => {
     .text(function () { return this.getName() })
     .textColor('black')
     .defineField("socketId", function(){
+      this._customData = data.id;
       return this._customData;
       }, function(newValue) {
      this._customData = newValue;
      })
-    .socketId(data.id)
     .dynamicTextGeneration(true)
     .checkHits('Solid') // check for collisions with entities that have the Solid component in each frame
     .bind("HitOn", function(hitData) {
@@ -49,7 +49,7 @@ socket.on("connect", () => {
         //Crafty.log(hitData);
         Crafty.log("name.");
         Crafty.log(hitData[0].obj.getName()  );
-        const options = {
+        /* const options = {
           roomName: 'Civitas_meet_'+me.getName(),
           width: w/4,
           height: h/3,
@@ -86,12 +86,11 @@ socket.on("connect", () => {
                 
                ],
               },
-         };
-         
-         const api = new JitsiMeetExternalAPI(domain, options); 
-         const iframe = api.getIFrame();
-         iframe.attr("scrolling ='yes'");
-      
+         };*/
+        
+        // const api = new JitsiMeetExternalAPI(domain, options); 
+    //     const iframe = api.getIFrame();
+    
     
     })
     .bind("HitOff", function(comp) {
@@ -114,21 +113,31 @@ socket.on("message", data => {
   $('#chat').append("<b>"+data.user+":</b> "+data.message +"<br>");
 });
 socket.on("imnothere", data => {
+  console.log("users1")
+  console.log(users)
+  console.log("im not here anymore : "+data.id);
+  //erase = users.find(socketId => socketId == data.id);
+  erase = users.find( user => user.socketId === data.id);
+  console.log(erase)
+  console.log(erase.socketId)
+  erase.destroy()
+  users.splice(users.indexOf(erase), 1)
   console.log(data);
-  delete users.find(socketId => socketId == data.id);
+  console.log("users2")
+  console.log(users)
+
 });
 
 socket.on("position", (data) => {
-    if(resultado = users.find( user => user._entityName === data.user )){
+         
         resultado = users.find( user => user._entityName === data.user );
-        //console.log(data);
-        console.log(resultado);
+
+        console.log("position");
+       console.log(resultado);
         resultado.x = data.position.x;
         resultado.y = data.position.y;
-    }else{
-        console.log("el usurio no esta agregado");
-    }
-
+    //   console.log("el usurio no esta agregado");
+      resultado = null;
 
   });
 
@@ -261,7 +270,7 @@ $('#myModal').modal('show')
   .bind('StopDrag', function(evt) {
   
     socket.emit("position", {"user":user,"position":{"x":this.x, "y":this.y}});
-    console.log({"x":this.x, "y":this.y});
+    //console.log({"x":this.x, "y":this.y});
     this.sprite(0,0,200,500);
     this.attr({w:50,h:100});
   });
