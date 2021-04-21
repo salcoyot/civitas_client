@@ -4,8 +4,8 @@ const socket = io("https://civitas-kechw.ondigitalocean.app");
 var users =[];
 
 const domain = 'meet.jit.si';
-
-
+const myid ="";
+ 
 
 socket.on("connect", () => {
   console.log("succefull connect https://civitas-kechw.ondigitalocean.app");
@@ -17,12 +17,13 @@ socket.on("connect", () => {
  /*  socket.emit("salutations", "Hello!", { "mr": "john" }, Uint8Array.from([1, 2, 3, 4])); */
 });
 
-socket.on("newuser", (data) => {
-  
-   
+  socket.on("mesocketid", (data) => {
+    myid = data.id;
+    console.log("id: "+myid);
+  }); 
+  socket.on("newuser", (data) => {
     console.log("new user");
-   
-    
+     
     users.push(
       Crafty.e("2D, DOM, people, Fourway, Collision, Solid, Controllable").setName(data.user).attr({
         x: data.position.x,
@@ -34,6 +35,12 @@ socket.on("newuser", (data) => {
     .attr({ x: 100, y: 100, vx: 10 })
     .text(function () { return this.getName() })
     .textColor('black')
+    .defineField("socketId", function(){
+      return this._customData;
+      }, function(newValue) {
+     this._customData = newValue;
+     })
+    .socketId(data.id)
     .dynamicTextGeneration(true)
     .checkHits('Solid') // check for collisions with entities that have the Solid component in each frame
     .bind("HitOn", function(hitData) {
@@ -84,7 +91,7 @@ socket.on("newuser", (data) => {
          const api = new JitsiMeetExternalAPI(domain, options); 
          const iframe = api.getIFrame();
          iframe.attr("scrolling ='yes'");
- 
+      
     
     })
     .bind("HitOff", function(comp) {
@@ -94,9 +101,9 @@ socket.on("newuser", (data) => {
     );
     console.log("users")
     console.log(users)
-   
-    //socket.emit("newuser", {"user":user,"position":{"x":me.x, "y":me.y}});
-
+   if(!data.imhere || data.imhere == null){
+    socket.emit("imhere", {"user":user,"position":{"x":me.x, "y":me.y}, "id": myid, "sendto": data.id });
+  }
   /*   people_entity.x = data.position.x;
     people_entity.y = data.position.y; */
   });
@@ -105,6 +112,10 @@ socket.on("newuser", (data) => {
 socket.on("message", data => {
   console.log(data);
   $('#chat').append("<b>"+data.user+":</b> "+data.message +"<br>");
+});
+socket.on("imnothere", data => {
+  console.log(data);
+  delete users.find(socketId => socketId == data.id);
 });
 
 socket.on("position", (data) => {
@@ -139,7 +150,7 @@ $('#userinput').change(function(){
   user = $(this).val();
   me.setName(user)
   $("#user").text(user)
-  socket.emit("newuser", {"user":user,"position":{"x":me.x, "y":me.y}});
+  socket.emit("imanewuser", {"user":user,"position":{"x":me.x, "y":me.y}, "id":myid});
 });
 $('#saveuser').click(function(){
   user = $("#userinput").val();
