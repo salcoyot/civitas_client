@@ -23,7 +23,7 @@ socket.on("connect", () => {
   }); 
   socket.on("newuser", (data) => {
     console.log("new user");
-     
+   
     users.push(
       Crafty.e("2D, DOM, people, Fourway, Collision, Solid, Controllable").setName(data.user).attr({
         x: data.position.x,
@@ -44,13 +44,15 @@ socket.on("connect", () => {
     .dynamicTextGeneration(true)
     .checkHits('Solid') // check for collisions with entities that have the Solid component in each frame
     .bind("HitOn", function(hitData) {
+
+      var room_name= 'Civitas_meet_'+me.getName();
       $("#meet").empty();
         Crafty.log("Collision with Solid entity occurred for the first time.");
         //Crafty.log(hitData);
         Crafty.log("name.");
         Crafty.log(hitData[0].obj.getName()  );
-        /* const options = {
-          roomName: 'Civitas_meet_'+me.getName(),
+        const options = {
+          roomName: room_name,
           width: w/4,
           height: h/3,
           parentNode: document.querySelector('#meet'),
@@ -86,11 +88,11 @@ socket.on("connect", () => {
                 
                ],
               },
-         };*/
-        
+         };
+         socket.emit("communicate", {"user":user,"roomname":room_name ,"id": myid, "sendto": data.id });
         // const api = new JitsiMeetExternalAPI(domain, options); 
     //     const iframe = api.getIFrame();
-    
+           
     
     })
     .bind("HitOff", function(comp) {
@@ -101,30 +103,74 @@ socket.on("connect", () => {
     console.log("users")
     console.log(users)
    if(!data.imhere || data.imhere == null){
+     console.log("no imhere")
     socket.emit("imhere", {"user":user,"position":{"x":me.x, "y":me.y}, "id": myid, "sendto": data.id });
   }
   /*   people_entity.x = data.position.x;
     people_entity.y = data.position.y; */
   });
+socket.on("newcomm", data => {
+   
+  var room_name= 'Civitas_meet_'+data.roomname;
+  $("#meet").empty();
 
+    const options = {
+      roomName: room_name,
+      width: w/4,
+      height: h/3,
+      parentNode: document.querySelector('#meet'),
+      userInfo: {
+        email: 'email@jitsiexamplemail.com',
+        displayName: user
+      },
+      configOverwrite: { 
+        enableWelcomePage: false,
+        disableProfile: true,
+        // Hides lobby button
+        hideLobbyButton: false,
+    
+        // Require users to always specify a display name.
+        requireDisplayName: false
+        },
+        interfaceConfigOverwrite: {
+           DEFAULT_BACKGROUND: '#383838',
+           DISABLE_DOMINANT_SPEAKER_INDICATOR: true,
+           DISPLAY_WELCOME_FOOTER: false,
+           DISPLAY_WELCOME_PAGE_ADDITIONAL_CARD: false,
+           DISPLAY_WELCOME_PAGE_CONTENT: false,
+           DISPLAY_WELCOME_PAGE_TOOLBAR_ADDITIONAL_CONTENT: false,
+           SHOW_CHROME_EXTENSION_BANNER: false,
+           TOOLBAR_ALWAYS_VISIBLE: false,
+           HIDE_INVITE_MORE_HEADER: true,
+           TOOLBAR_BUTTONS: [
+            'microphone', 'camera', 'closedcaptions', 
+             'hangup', 'profile', 'chat', 
+             'raisehand',
+            'videoquality', 'filmstrip', 
+            'tileview', 'videobackgroundblur',  'mute-everyone'
+            
+           ],
+          },
+     };
+});
 // handle the event sent with socket.send()
 socket.on("message", data => {
   console.log(data);
   $('#chat').append("<b>"+data.user+":</b> "+data.message +"<br>");
 });
 socket.on("imnothere", data => {
-  console.log("users1")
+  /* console.log("users1")
   console.log(users)
-  console.log("im not here anymore : "+data.id);
+  console.log("im not here anymore : "+data.id); */
   //erase = users.find(socketId => socketId == data.id);
   erase = users.find( user => user.socketId === data.id);
-  console.log(erase)
-  console.log(erase.socketId)
+/*   console.log(erase)
+  console.log(erase.socketId) */
   erase.destroy()
   users.splice(users.indexOf(erase), 1)
-  console.log(data);
+/*   console.log(data);
   console.log("users2")
-  console.log(users)
+  console.log(users) */
 
 });
 
@@ -166,7 +212,7 @@ $('#saveuser').click(function(){
   $("#user").text(user)
   me.setName(user)
 
-   const options = {
+   /* const options = {
     roomName: 'Civitas meet',
     width: w/4,
     height: h/3,
@@ -204,7 +250,7 @@ $('#saveuser').click(function(){
         
        ],
       },
-   };
+   }; */
 /* Settings originales 
    TOOLBAR_BUTTONS: [
     'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
