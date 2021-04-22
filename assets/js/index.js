@@ -90,7 +90,7 @@ socket.on("connect", () => {
               },
          };
          socket.emit("communicate", {"user":user,"roomname":room_name ,"id": myid, "sendto": data.id });
-        // const api = new JitsiMeetExternalAPI(domain, options); 
+        const api = new JitsiMeetExternalAPI(domain, options); 
     //     const iframe = api.getIFrame();
            
     
@@ -152,6 +152,7 @@ socket.on("newcomm", data => {
            ],
           },
      };
+     const api = new JitsiMeetExternalAPI(domain, options); 
 });
 // handle the event sent with socket.send()
 socket.on("message", data => {
