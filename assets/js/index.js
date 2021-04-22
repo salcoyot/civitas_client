@@ -98,6 +98,7 @@ socket.on("connect", () => {
     })
     .bind("HitOff", function(comp) {
         Crafty.log("Collision with Solid entity ended.");
+        $("#meet").empty();
     })
 
     );
