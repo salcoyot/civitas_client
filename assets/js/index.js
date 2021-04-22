@@ -65,6 +65,7 @@ socket.on("connect", () => {
             disableProfile: true,
             // Hides lobby button
             hideLobbyButton: false,
+            prejoinPageEnabled: false,
         
             // Require users to always specify a display name.
             requireDisplayName: false
@@ -110,8 +111,9 @@ socket.on("connect", () => {
     people_entity.y = data.position.y; */
   });
 socket.on("newcomm", data => {
-   
-  var room_name= 'Civitas_meet_'+data.roomname;
+  console.log("new comm");
+  console.log(data);
+  var room_name= data.roomname;
   $("#meet").empty();
 
     const options = {
@@ -128,6 +130,7 @@ socket.on("newcomm", data => {
         disableProfile: true,
         // Hides lobby button
         hideLobbyButton: false,
+        prejoinPageEnabled: false,
     
         // Require users to always specify a display name.
         requireDisplayName: false
