@@ -34,7 +34,7 @@ socket.on("connect", () => {
     }).addComponent("2D, DOM, Text, Motion")
     .attr({ x: 100, y: 100, vx: 10 })
     .text(function () { return this.getName() })
-    .textColor('black')
+    .textColor('white')
     .defineField("socketId", function(){
       this._customData = data.id;
       return this._customData;
@@ -265,10 +265,10 @@ $('#saveuser').click(function(){
     'tileview', 'videobackgroundblur', 'download', 'help', 'mute-everyone',
     'e2ee', 'security'
    ], */
-   const api = new JitsiMeetExternalAPI(domain, options); 
+   /* const api = new JitsiMeetExternalAPI(domain, options); 
   
     const iframe = api.getIFrame();
-    iframe.scroll();
+    iframe.scroll(); */
 });
 
 
@@ -276,25 +276,86 @@ $('#saveuser').click(function(){
 
 $('#myModal').modal('show')
      
-        if(w > h){
-          Crafty.init(w/2,h, document.getElementById('game'));
-        }else{
-          Crafty.init(w,h/2, document.getElementById('game'));
-        }
-    
+  if(w > h){
+    Crafty.init( w/2,h, document.getElementById('game'));
+  }else{
+    Crafty.init( w,h/2, document.getElementById('game'));
+  }
+  //Crafty.canvas();
+  Crafty.sprite(16, "img/sprite.png", {
+    grass1: [0,0],
+    grass2: [1,0],
+    grass3: [2,0],
+    grass4: [3,0],
+    flower: [0,1],
+    bush1:  [0,2],
+    bush2:  [1,2],
+    player: [0,3]
+  });
+    // Method to randomy generate the map
+    function generateWorld() {
+      // Generate the grass along the x-axis
+      for (var i = 0; i < 25; i++) {
+        // Generate the grass along the y-axis
+        for (var j = 0; j < 20; j++) {
+          grassType = Crafty.randRange(1, 4);
+          Crafty.e("2D, canvas, grass" + grassType)
+            .attr({x: i * 16, y: j * 16});
   
+          // 1/50 chance of drawing a flower and only within the bushes
+          if (i > 0 && i < 24 && j > 0 && j < 19 && Crafty.randRange(0, 50) > 49) {
+            Crafty.e("2D, DOM, flower, animate")
+              .attr({x: i * 16, y: j * 16})
+              .animate("wind", 0, 1, 3)
+              .bind("enterframe", function() {
+                if (!this.isPlaying())
+                  this.animate("wind", 80);
+              });
+          }
+        }
+      }
+  
+      // Create the bushes along the x-axis which will form the boundaries
+      for (var i = 0; i < 25; i++) {
+        Crafty.e("2D, canvas, wall_top, bush"+Crafty.randRange(1,2))
+          .attr({x: i * 16, y: 0, z: 2});
+        Crafty.e("2D, canvas, wall_bottom, bush"+Crafty.randRange(1,2))
+          .attr({x: i * 16, y: 304, z: 2});
+      }
+  
+      // Create the bushes along the y-axis
+      // We need to start one more and one less to not overlap the previous bushes
+      for (var i = 1; i < 19; i++) {
+        Crafty.e("2D, canvas, wall_left, bush" + Crafty.randRange(1,2))
+          .attr({x: 0, y: i * 16, z: 2});
+        Crafty.e("2D, canvas, wall_right, bush" + Crafty.randRange(1,2))
+          .attr({x: 384, y: i * 16, z: 2});
+      }
+    }
+
+    Crafty.scene("main", function() {
+      generateWorld();
+    
+      // Create our player entity with some premade components
+      var player = Crafty.e("2D, DOM, player, controls, animate, collision")
+        .attr({x: 160, y: 144, z: 1})
+        .animate("walk_left", 6, 3, 8)
+        .animate("walk_right", 9, 3, 11)
+        .animate("walk_up", 3, 3, 5)
+        .animate("walk_down", 0, 3, 2);
+    });
     
 
   
    Crafty.sprite("img/people.png", {people:[0,0,200,500]});
 
    var me = Crafty.e("2D, DOM, people, Draggable, Fourway, Collision, Solid, Controllable");
-   me.attr({
+   me /*.attr({
     x: 100,
     y: 100,
     w:50,
     h:100
-  }).checkHits('Solid').setName("");
+  }) */.checkHits('Solid').setName("");
 
  
 
@@ -305,9 +366,9 @@ $('#myModal').modal('show')
     w:50,
     h:100
   }).addComponent("2D, DOM, Text, Motion")
-  .attr({ x: -100, y: 100, vx: 10 })
+  .attr({ vx: 100 })
   .text(function () { return this.getName()  })
-  .textColor('black')
+  .textColor('white')
   .dynamicTextGeneration(true);
   Crafty.viewport.follow(me, 0, 0);
 
@@ -316,14 +377,14 @@ $('#myModal').modal('show')
   .bind('Dragging', function(evt) {
     
     this.sprite(150, 0, 200, 500);
-    this.attr({w:50,h:100});
+    //this.attr({w:50,h:100});
   })
   .bind('StopDrag', function(evt) {
   
     socket.emit("position", {"user":user,"position":{"x":this.x, "y":this.y}});
     //console.log({"x":this.x, "y":this.y});
     this.sprite(0,0,200,500);
-    this.attr({w:50,h:100});
+    //this.attr({w:50,h:100});
   });
  
    /* var hBox = Crafty.e("2D, Canvas, Color, Draggable, Fourway, Collision")
@@ -344,7 +405,7 @@ $('#myModal').modal('show')
   .bind('StopDrag', function(evt) {
     this.color("red");
   }); */
-  Crafty.background('#f5f4b0 no-repeat center');
+  //Crafty.background('#f5f4b0 no-repeat center');
  /*  var myEntity = Crafty.e('2D, Canvas, Color, Mouse')
     .attr({x: 10, y: 10, w: 60, h: 40})
     .color('Blue')
