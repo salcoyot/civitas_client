@@ -82,7 +82,7 @@ socket.on("connect", () => {
                HIDE_INVITE_MORE_HEADER: true,
                TOOLBAR_BUTTONS: [
                 'microphone', 'camera', 'closedcaptions', 
-                 'hangup', 'profile', 'chat', 
+                  'profile', 'chat', 
                  'raisehand',
                 'videoquality', 'filmstrip', 
                 'tileview', 'videobackgroundblur',  'mute-everyone'
@@ -148,7 +148,7 @@ socket.on("newcomm", data => {
            HIDE_INVITE_MORE_HEADER: true,
            TOOLBAR_BUTTONS: [
             'microphone', 'camera', 'closedcaptions', 
-             'hangup', 'profile', 'chat', 
+              'profile', 'chat', 
              'raisehand',
             'videoquality', 'filmstrip', 
             'tileview', 'videobackgroundblur',  'mute-everyone'
