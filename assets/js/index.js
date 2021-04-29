@@ -385,7 +385,11 @@ $('#myModal').modal('show')
   Crafty.viewport.scale(2);
   
    me.dragDirection()
-  .reel("moving", 500, [[0,3],[1,3],[2,3]])
+   .reel("moving", 500, [[0,3],[1,3],[2,3]])
+   .reel("left", 1000, [[6,3],[7,3],[8,3]] )
+   .reel("down", 1000, [[0,3],[1,3],[2,3]])
+   .reel("right", 1000,[[9,3],[10,3],[11,3]])
+   .reel("up", 1000, [[3,3],[4,3],[5,3]] )
   .bind('Dragging', function(evt) {
     
     //this.sprite(7,3 );
@@ -401,7 +405,23 @@ $('#myModal').modal('show')
      //this.sprite(0,3 );
      this.animate("moving", 0);
     //this.attr({w:50,h:100});
-  });
+  }).bind('KeyDown', function(e) {
+    if(e.key == Crafty.keys.LEFT_ARROW) {
+      //this.x = this.x - 1;
+     this.animate("left", -1);
+    } else if (e.key == Crafty.keys.RIGHT_ARROW) {
+      //this.x = this.x + 1;
+     this.animate("right", -1);
+    } else if (e.key == Crafty.keys.UP_ARROW) {
+      //this.y = this.y - 1;
+     this.animate("up", -1);
+    } else if (e.key == Crafty.keys.DOWN_ARROW) {
+     this.animate("down", -1);
+     // this.y = this.y + 1;
+    }
+  }).bind('KeyUp', function(e) {
+    this.pauseAnimation();
+  }) ;
  
    /* var hBox = Crafty.e("2D, Canvas, Color, Draggable, Fourway, Collision")
   .attr({
