@@ -308,10 +308,10 @@ $('#myModal').modal('show')
             .attr({x: i * 16, y: j * 16})
           };
           if (i > 0 && i < w/10 && j > 0 && j < h/10 && Crafty.math.randomInt(0, 50) > 49) {
-            Crafty.e("2D, DOM, flower, SpriteAnimation, animate")
+            Crafty.e("2D, DOM, flower, SpriteAnimation")
               .attr({x: i * 16, y: j * 16})
-              .reel("wind",20, 0, 0, 3)
-              //.animate("wind", -1)
+              .reel("wind",1000, 0, 1, 4)
+              .animate("wind", -1)
               .bind("enterframe", function() {
                 if (!this.isPlaying())
                  this.animate("wind", 80);
@@ -342,13 +342,13 @@ $('#myModal').modal('show')
     Crafty.scene("main", function() {
       generateWorld();
       // Create our player entity with some premade components
-      var player = Crafty.e("2D, DOM, player,Fourway, controls, SpriteAnimation, animate, collision")
+/*       var player = Crafty.e("2D, DOM, player,Fourway, controls, SpriteAnimation, animate, collision")
         .attr({x: 160, y: 144, z: 1})
         .fourway(200)
         .reel("walk_right", 9, 3, 11)
         .reel("walk_left", 6, 3, 8)
         .reel("walk_up", 3, 3, 5)
-        .reel("walk_down", 0, 3, 2);
+        .reel("walk_down", 0, 3, 2); */
    
     });
     
@@ -356,42 +356,50 @@ $('#myModal').modal('show')
   
    Crafty.sprite("img/people.png", {people:[0,0,200,500]});
 
-   var me = Crafty.e("2D, DOM, people, Draggable, Fourway, Collision, Solid, Controllable");
+   var me = Crafty.e("2D, DOM, nombre, player, Draggable, Fourway, Collision, Solid, Controllable, SpriteAnimation");
    me /*.attr({
     x: 100,
     y: 100,
     w:50,
     h:100
   }) */.checkHits('Solid').setName("");
-
- 
-
-
   me.setName(user).attr({
     x: 200,
     y: 200,
-    z: 1,
-    w:50,
-    h:100
-  }).addComponent("2D, DOM, Text, Motion")
-  .attr({ vx: 100 })
-  .text(function () { return this.getName()  })
+    z: 1
+ 
+  }).fourway(100);
+
+   nombre = Crafty.e("2D, DOM, Text,  Motion")
+  .attr({ x: me.x, y: me.y, w:100 }) 
+  .text(function () {    
+    this.x = me.x;
+    this.y = me.y-10;
+    return me.getName()  })
   .textColor('white')
+  .textAlign("left")
+  .textFont({ size: '9px' })
+  .unselectable()
   .dynamicTextGeneration(true);
   Crafty.viewport.follow(me, 0, 0);
-
-
+  Crafty.viewport.scale(2);
+  
    me.dragDirection()
+  .reel("moving", 500, [[0,3],[1,3],[2,3]])
   .bind('Dragging', function(evt) {
     
-    this.sprite(150, 0, 200, 500);
-    //this.attr({w:50,h:100});
+    //this.sprite(7,3 );
+    
+    this.animate("moving",-1);
+    
+    //his.attr({w:50,h:100});
   })
   .bind('StopDrag', function(evt) {
   
     socket.emit("position", {"user":user,"position":{"x":this.x, "y":this.y}});
     //console.log({"x":this.x, "y":this.y});
-    this.sprite(0,0,200,500);
+     //this.sprite(0,3 );
+     this.animate("moving", 0);
     //this.attr({w:50,h:100});
   });
  
@@ -433,7 +441,7 @@ $('#myModal').modal('show')
     tree2:[0,0,400,250]
 
 }); */
-var tree_entity = Crafty.e("2D, DOM, , Collision, tree1");
+/* var tree_entity = Crafty.e("2D, DOM, , Collision, tree1");
 var tree_entity2 = Crafty.e("2D, DOM, , Collision, tree2");
 tree_entity.attr({
     x: 200,
@@ -458,4 +466,4 @@ myEntity.bind('MouseUp', function(e) {
     Crafty.log("Clicked right button");
    }
        Crafty.log("Clicked right button");
-});
+}); */
