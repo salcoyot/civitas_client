@@ -9,22 +9,14 @@ var myid ="";
 
 socket.on("connect", () => {
   console.log("succefull connect https://civitas-kechw.ondigitalocean.app");
-  // either with send()
-  //socket.send("Hello!");
-  
- 
-  // or with emit() and custom event names
- /*  socket.emit("salutations", "Hello!", { "mr": "john" }, Uint8Array.from([1, 2, 3, 4])); */
-});
-
+ });
   socket.on("mesocketid", (data) => {
     myid = data.id;
     console.log("id: "+myid);
   }); 
   socket.on("newuser", (data) => {
-    console.log("new user");
-   
-    users.push(
+    console.log("new user "+data.user);
+       users.push(
       Crafty.e("2D, DOM, player, Fourway, Collision, Solid, Controllable").setName(data.user).attr({
         x: data.position.x,
         y: data.position.y,
