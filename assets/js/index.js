@@ -25,12 +25,10 @@ socket.on("connect", () => {
     console.log("new user");
    
     users.push(
-      Crafty.e("2D, DOM, people, Fourway, Collision, Solid, Controllable").setName(data.user).attr({
+      Crafty.e("2D, DOM, player, Fourway, Collision, Solid, Controllable").setName(data.user).attr({
         x: data.position.x,
         y: data.position.y,
 
-          w:50,
-          h:100
     }).addComponent("2D, DOM, Text, Motion")
     .attr({ x: 100, y: 100, vx: 10 })
     .text(function () { return this.getName() })
@@ -354,7 +352,7 @@ $('#myModal').modal('show')
     
     Crafty.enterScene("main");
   
-   Crafty.sprite("img/people.png", {people:[0,0,200,500]});
+   //Crafty.sprite("img/people.png", {people:[0,0,200,500]});
 
    var me = Crafty.e("2D, DOM, nombre, player, Draggable, Fourway, Collision, Solid, Controllable, SpriteAnimation");
    me /*.attr({
@@ -406,8 +404,11 @@ $('#myModal').modal('show')
      this.animate("moving", 0);
     //this.attr({w:50,h:100});
   }).bind('KeyDown', function(e) {
+    socket.emit("position", {"user":user,"position":{"x":this.x, "y":this.y}});
+
     if(e.key == Crafty.keys.LEFT_ARROW) {
       //this.x = this.x - 1;
+      
      this.animate("left", -1);
     } else if (e.key == Crafty.keys.RIGHT_ARROW) {
       //this.x = this.x + 1;
@@ -421,7 +422,7 @@ $('#myModal').modal('show')
     }
   }).bind('KeyUp', function(e) {
     this.pauseAnimation();
-  }) ;
+  }) ; 
  
    /* var hBox = Crafty.e("2D, Canvas, Color, Draggable, Fourway, Collision")
   .attr({
