@@ -272,7 +272,7 @@ $('#myModal').modal('show')
     Crafty.init( w,h/2, document.getElementById('game'));
   }
   //Crafty.canvas();
-  Crafty.sprite(16, "img/sprite.png", {
+  Crafty.sprite(16, "img/sprite2.png", {
     grass1: [0,0],
     grass2: [1,0],
     grass3: [2,0],
@@ -280,12 +280,17 @@ $('#myModal').modal('show')
     flower: [0,1],
     bush1:  [0,2],
     bush2:  [1,2],
-    player: [0,3]
+    bush3:  [2,3],
+    player: [0,3],
+    stone1: [0,4],
+    stone2: [1,4],
+    stone3: [1,4],
+    stone4: [3,4]
   });
     // Method to randomy generate the map
     function generateWorld() {
       // Generate the grass along the x-axis
-      for (var i = 0; i < w/9; i++) {
+      for (var i = 0; i < w/5; i++) {
         // Generate the grass along the y-axis
         for (var j = 0; j < h/10; j++) {
           grassType = Crafty.math.randomInt(1, 4);
@@ -293,11 +298,11 @@ $('#myModal').modal('show')
             .attr({x: i * 16, y: j * 16});
   
           // 1/50 chance of drawing a flower and only within the bushes
-          if (i > 0 && i < w/9 && j > 0 && j < h/10 && Crafty.math.randomInt(0, 50) > 49) {
+          if (i > 0 && i < w/5 && j > 0 && j < h/10 && Crafty.math.randomInt(0, 50) > 49) {
             Crafty.e("2D, Canvas, bush"+Crafty.math.randomInt(1,2))
             .attr({x: i * 16, y: j * 16})
           };
-          if (i > 0 && i < w/10 && j > 0 && j < h/10 && Crafty.math.randomInt(0, 50) > 49) {
+          if (i > 0 && i < w/5 && j > 0 && j < h/10 && Crafty.math.randomInt(0, 50) > 48) {
             Crafty.e("2D, DOM, flower, SpriteAnimation")
               .attr({x: i * 16, y: j * 16})
               .reel("wind",1000, 0, 1, 4)
@@ -309,24 +314,24 @@ $('#myModal').modal('show')
           }
         }
       }
-  /* 
+/*   
       // Create the bushes along the x-axis which will form the boundaries
       for (var i = 0; i < w/10; i++) {
-        Crafty.e("2D, Canvas, wall_top, bush"+Crafty.math.randomInt(1,2))
+        Crafty.e("2D, Canvas, wall_top, stone"+Crafty.math.randomInt(1,4))
           .attr({x: i * 16, y: 0, z: 2});
-        Crafty.e("2D, Canvas, wall_bottom, bush"+Crafty.math.randomInt(1,2))
+        Crafty.e("2D, Canvas, wall_bottom, stone"+Crafty.math.randomInt(1,4))
           .attr({x: i * 16, y: w, z: 2});
       }
   
       // Create the bushes along the y-axis
       // We need to start one more and one less to not overlap the previous bushes
       for (var i = 1; i < h/10; i++) {
-        Crafty.e("2D, Canvas, wall_left, bush" + Crafty.math.randomInt(1,2))
+        Crafty.e("2D, Canvas, wall_left, stone" + Crafty.math.randomInt(1,4))
           .attr({x: 0, y: i * 16, z: 2});
-        Crafty.e("2D, Canvas, wall_right, bush" + Crafty.math.randomInt(1,2))
+        Crafty.e("2D, Canvas, wall_right, stone" + Crafty.math.randomInt(1,4))
           .attr({x: h, y: i * 16, z: 2});
-      }*/
-    } 
+      }
+    }  */
 
 
     Crafty.scene("main", function() {
