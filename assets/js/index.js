@@ -314,8 +314,8 @@ $('#myModal').modal('show')
           }
         }
       }
-/*   
-      // Create the bushes along the x-axis which will form the boundaries
+  
+   /*    // Create the bushes along the x-axis which will form the boundaries
       for (var i = 0; i < w/10; i++) {
         Crafty.e("2D, Canvas, wall_top, stone"+Crafty.math.randomInt(1,4))
           .attr({x: i * 16, y: 0, z: 2});
@@ -330,8 +330,8 @@ $('#myModal').modal('show')
           .attr({x: 0, y: i * 16, z: 2});
         Crafty.e("2D, Canvas, wall_right, stone" + Crafty.math.randomInt(1,4))
           .attr({x: h, y: i * 16, z: 2});
-      }
-    }  */
+      } */
+    } 
 
 
     Crafty.scene("main", function() {
