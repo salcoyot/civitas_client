@@ -266,11 +266,19 @@ $('#saveuser').click(function(){
 
 $('#myModal').modal('show')
      
-  if(w > h){
+/*   if(w > h){
     Crafty.init( w/2,h, document.getElementById('game'));
   }else{
     Crafty.init( w,h/2, document.getElementById('game'));
-  }
+  } */
+
+  var game_h = 50; 
+  var game_w = 50; 
+  Crafty.init( w/2,h-100, document.getElementById('game'));
+
+  
+  
+
   //Crafty.canvas();
   Crafty.sprite(16, "img/sprite2.png", {
     grass1: [0,0],
@@ -280,7 +288,7 @@ $('#myModal').modal('show')
     flower: [0,1],
     bush1:  [0,2],
     bush2:  [1,2],
-    bush3:  [2,3],
+    bush3:  [2,2],
     player: [0,3],
     stone1: [0,4],
     stone2: [1,4],
@@ -290,19 +298,19 @@ $('#myModal').modal('show')
     // Method to randomy generate the map
     function generateWorld() {
       // Generate the grass along the x-axis
-      for (var i = 0; i < w/5; i++) {
+      for (var i = 0; i < game_w/1.1 ; i++) {
         // Generate the grass along the y-axis
-        for (var j = 0; j < h/10; j++) {
+        for (var j = 0; j < game_h/1.1 ; j++) {
           grassType = Crafty.math.randomInt(1, 4);
           Crafty.e("2D, Canvas, grass" + grassType)
             .attr({x: i * 16, y: j * 16});
   
           // 1/50 chance of drawing a flower and only within the bushes
-          if (i > 0 && i < w/5 && j > 0 && j < h/10 && Crafty.math.randomInt(0, 50) > 49) {
-            Crafty.e("2D, Canvas, bush"+Crafty.math.randomInt(1,2))
+          if (i > 0 && i < game_w && j > 0 && j < game_w && Crafty.math.randomInt(0, 50) > 49) {
+            Crafty.e("2D, Canvas, bush"+Crafty.math.randomInt(1,3))
             .attr({x: i * 16, y: j * 16})
           };
-          if (i > 0 && i < w/5 && j > 0 && j < h/10 && Crafty.math.randomInt(0, 50) > 48) {
+          if (i > 0 && i < game_h  && j > 0 && j < game_h  && Crafty.math.randomInt(0, 50) > 48) {
             Crafty.e("2D, DOM, flower, SpriteAnimation")
               .attr({x: i * 16, y: j * 16})
               .reel("wind",1000, 0, 1, 4)
@@ -315,22 +323,22 @@ $('#myModal').modal('show')
         }
       }
   
-   /*    // Create the bushes along the x-axis which will form the boundaries
-      for (var i = 0; i < w/10; i++) {
-        Crafty.e("2D, Canvas, wall_top, stone"+Crafty.math.randomInt(1,4))
+     // Create the bushes along the x-axis which will form the boundaries
+      for (var i = 0; i < game_w/1.1; i++) {
+        Crafty.e("2D, wall, Canvas, wall_top, stone"+Crafty.math.randomInt(1,4))
           .attr({x: i * 16, y: 0, z: 2});
-        Crafty.e("2D, Canvas, wall_bottom, stone"+Crafty.math.randomInt(1,4))
-          .attr({x: i * 16, y: w, z: 2});
+        Crafty.e("2D, wall, Canvas, wall_bottom, stone"+Crafty.math.randomInt(1,4))
+          .attr({x: i * 16, y: game_w*14, z: 2});
       }
   
       // Create the bushes along the y-axis
       // We need to start one more and one less to not overlap the previous bushes
-      for (var i = 1; i < h/10; i++) {
-        Crafty.e("2D, Canvas, wall_left, stone" + Crafty.math.randomInt(1,4))
+      for (var i = 1; i < game_h/1.1; i++) {
+        Crafty.e("2D, wall, Canvas, wall_left, stone" + Crafty.math.randomInt(1,4))
           .attr({x: 0, y: i * 16, z: 2});
-        Crafty.e("2D, Canvas, wall_right, stone" + Crafty.math.randomInt(1,4))
-          .attr({x: h, y: i * 16, z: 2});
-      } */
+        Crafty.e("2D, wall, Canvas, wall_right, stone" + Crafty.math.randomInt(1,4))
+          .attr({x: game_h*14, y: i * 16, z: 2});
+      } 
     } 
 
 
@@ -350,14 +358,14 @@ $('#myModal').modal('show')
     Crafty.enterScene("main");
   
    //Crafty.sprite("img/people.png", {people:[0,0,200,500]});
-
+ var preventBug =0;
    var me = Crafty.e("2D, DOM, nombre, player, Draggable, Fourway, Collision, Solid, Controllable, SpriteAnimation");
-   me /*.attr({
+/*    me /*.attr({
     x: 100,
     y: 100,
     w:50,
     h:100
-  }) */.checkHits('Solid').setName("");
+  }).checkHits('Solid').setName(""); */
   me.setName(user).attr({
     x: 200,
     y: 200,
@@ -385,7 +393,7 @@ $('#myModal').modal('show')
    .reel("down", 1000, [[0,3],[1,3],[2,3]])
    .reel("right", 1000,[[9,3],[10,3],[11,3]])
    .reel("up", 1000, [[3,3],[4,3],[5,3]] )
-  .bind('Dragging', function(evt) {
+  /* .bind('Dragging', function(evt) {
     
     //this.sprite(7,3 );
     
@@ -400,7 +408,7 @@ $('#myModal').modal('show')
      //this.sprite(0,3 );
      this.animate("moving", 0);
     //this.attr({w:50,h:100});
-  }).bind('KeyDown', function(e) {
+  }) */.bind('KeyDown', function(e) {
     socket.emit("position", {"user":user,"position":{"x":this.x, "y":this.y}});
 
     if(e.key == Crafty.keys.LEFT_ARROW) {
@@ -419,7 +427,52 @@ $('#myModal').modal('show')
     }
   }).bind('KeyUp', function(e) {
     this.pauseAnimation();
-  }) ; 
+  }).bind('Move', function(evt) { // after player moved
+    var hitDatas, hitData;
+    if ((hitDatas = this.hit('wall'))) { // check for collision with walls
+      //console.log(hitData)// resolving collision for just one collider
+      hitData = hitDatas[0]; 
+      this.x = evt._x;
+      this.y = evt._y;
+      alert("No puedes salir")
+      return null
+      //console.log(hitData)// resolving collision for just one collider
+      if (hitData.type === 'SAT') { // SAT, advanced collision resolution
+        // move player back by amount of overlap
+        this.x -= hitData.overlap * hitData.nx ;
+        this.y -= hitData.overlap * hitData.ny ;
+      } else { // MBR, simple collision resolution
+        // move player to previous position
+        console.log(evt);
+    
+        try{
+          preventBug ++
+          console.log("preventBug" + preventBug)           
+          if(preventBug >2){
+            this.x = 100;
+            this.y = 100;
+            preventBug=0;
+            return null
+          }else{
+            this.x = evt._x;
+            this.y = evt._y;
+            alert("No puedes salir")
+            return null
+          }
+        //socket.emit("message", {"message":"No puedes salir del Área", "user":"Civitas"});
+     
+        }catch(e){
+          console.log(e)
+          this.x = 200;
+          this.y = 200;
+          preventBug=0;
+          return null
+         
+        }
+        
+      }
+      return null
+  }});
  
    /* var hBox = Crafty.e("2D, Canvas, Color, Draggable, Fourway, Collision")
   .attr({
