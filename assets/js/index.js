@@ -17,11 +17,36 @@ socket.on("connect", () => {
   socket.on("newuser", (data) => {
     console.log("new user "+data.user);
        users.push(
-      Crafty.e("2D, DOM, player, Fourway, Collision, Solid, Controllable").setName(data.user).attr({
+    Crafty.e("2D, DOM, player, Fourway, Collision, Solid, Controllable").setName(data.user).attr({
         x: data.position.x,
         y: data.position.y,
 
-    }).addComponent("2D, DOM, Text, Motion")
+    }).defineField("textCreate", function(){
+     /*  console.log("textCreate")
+      console.log(this.getName())
+       */
+       
+      
+      const nombre = Crafty.e("2D, DOM, Text,  Motion")
+      .attr({ x: data.position.x, y: data.position.y, w:100 }) 
+      .text(function () {    
+        //this.x = data.position.x;
+        //this.y = data.position.y-10;
+        return data.user  })
+      .textColor('white')
+      .textAlign("left")
+      .textFont({ size: '9px' })
+      .unselectable()
+      .dynamicTextGeneration(true);
+      this._customData = nombre
+      return this._customData;
+    }, function(newValue) {
+      this._customData = newValue;
+
+      
+     }) 
+  
+    .addComponent("2D, DOM, Text, Motion")
     .attr({ x: 100, y: 100, vx: 10 })
     .text(function () { return this.getName() })
     .textColor('white')
@@ -31,7 +56,7 @@ socket.on("connect", () => {
       }, function(newValue) {
      this._customData = newValue;
      })
-    .dynamicTextGeneration(true)
+    //.dynamicTextGeneration(true) 
     .checkHits('Solid') // check for collisions with entities that have the Solid component in each frame
     .bind("HitOn", function(hitData) {
 
@@ -89,6 +114,13 @@ socket.on("connect", () => {
     .bind("HitOff", function(comp) {
         Crafty.log("Collision with Solid entity ended.");
         $("#meet").empty();
+    })
+    .bind("Move", function(){
+     /*  console.log("this.textCreate")
+      console.log(this.textCreate)
+      this.textCreate.x = this.x
+      this.textCreate.y = this.y
+      this.textCreate.textColor('red') */
     })
 
     );
@@ -173,10 +205,10 @@ socket.on("position", (data) => {
          
         resultado = users.find( user => user._entityName === data.user );
 
-        console.log("position");
-       console.log(resultado);
-        resultado.x = data.position.x;
-        resultado.y = data.position.y;
+      console.log("position");
+      console.log(resultado);
+       resultado.x = data.position.x;
+      resultado.y = data.position.y;
     //   console.log("el usurio no esta agregado");
       resultado = null;
 
@@ -393,7 +425,7 @@ $('#myModal').modal('show')
    .reel("down", 1000, [[0,3],[1,3],[2,3]])
    .reel("right", 1000,[[9,3],[10,3],[11,3]])
    .reel("up", 1000, [[3,3],[4,3],[5,3]] )
-  /* .bind('Dragging', function(evt) {
+  .bind('Dragging', function(evt) {
     
     //this.sprite(7,3 );
     
@@ -402,13 +434,13 @@ $('#myModal').modal('show')
     //his.attr({w:50,h:100});
   })
   .bind('StopDrag', function(evt) {
-  
+    
     socket.emit("position", {"user":user,"position":{"x":this.x, "y":this.y}});
     //console.log({"x":this.x, "y":this.y});
      //this.sprite(0,3 );
      this.animate("moving", 0);
     //this.attr({w:50,h:100});
-  }) */.bind('KeyDown', function(e) {
+  }).bind('KeyDown', function(e) {
     socket.emit("position", {"user":user,"position":{"x":this.x, "y":this.y}});
 
     if(e.key == Crafty.keys.LEFT_ARROW) {
