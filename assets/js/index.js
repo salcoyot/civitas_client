@@ -63,8 +63,8 @@ socket.on("connect", () => {
     .bind("HitOn", function(hitData) {
       if(!api){
         $('#connect').show();
-        $('#connect > i').html(hitData[0].obj.getName())
-              var room_name= 'Civitas_meet_'+me.getName();
+        //$('#connect > i').html()
+       var room_name= 'Civitas_meet_'+me.getName();
         $("#meet").empty();
           Crafty.log("Collision with Solid entity occurred for the first time.");
           //Crafty.log(hitData);
@@ -203,7 +203,14 @@ socket.on("newcomm", data => {
            ],
           },
      };
-     const api = new JitsiMeetExternalAPI(domain, options); 
+     const api = new JitsiMeetExternalAPI(domain, options);
+     if( api ){
+      $('#disconnect').show().click(function(){
+        $("#meet").empty();  
+        api = null  
+        $('#disconnect').hide();             
+      })
+    } 
 });
 // handle the event sent with socket.send()
 socket.on("message", data => {
