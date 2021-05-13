@@ -2,11 +2,12 @@ var w = window.innerWidth;
 var h = window.innerHeight;
 const socket = io("https://civitas-kechw.ondigitalocean.app");
 var users =[];
-
+api = null;
 const domain = 'meet.jit.si';
 var myid ="";
  
 $('#connect').hide();
+$('#disconnect').hide();
 
 socket.on("connect", () => {
   console.log("succefull connect https://civitas-kechw.ondigitalocean.app");
@@ -60,62 +61,66 @@ socket.on("connect", () => {
     //.dynamicTextGeneration(true) 
     .checkHits('Solid') // check for collisions with entities that have the Solid component in each frame
     .bind("HitOn", function(hitData) {
-      $('#connect').show();
-      $('#connect > i').html(hitData[0].obj.getName())
-            var room_name= 'Civitas_meet_'+me.getName();
-      $("#meet").empty();
-        Crafty.log("Collision with Solid entity occurred for the first time.");
-        //Crafty.log(hitData);
-        Crafty.log("name.");
-        Crafty.log(hitData[0].obj );
-        const options = {
-          roomName: room_name,
-          width: w/4,
-          height: h/3,
-          parentNode: document.querySelector('#meet'),
-          userInfo: {
-            email: 'email@jitsiexamplemail.com',
-            displayName: user
-          },
-          configOverwrite: { 
-            enableWelcomePage: false,
-            disableProfile: true,
-            // Hides lobby button
-            hideLobbyButton: false,
-            prejoinPageEnabled: false,
+      if(!api){
+        $('#connect').show();
+        $('#connect > i').html(hitData[0].obj.getName())
+              var room_name= 'Civitas_meet_'+me.getName();
+        $("#meet").empty();
+          Crafty.log("Collision with Solid entity occurred for the first time.");
+          //Crafty.log(hitData);
+          Crafty.log("name.");
+          Crafty.log(hitData[0].obj );
+      }
+      
         
-            // Require users to always specify a display name.
-            requireDisplayName: false
-            },
-            interfaceConfigOverwrite: {
-               DEFAULT_BACKGROUND: '#383838',
-               DISABLE_DOMINANT_SPEAKER_INDICATOR: true,
-               DISPLAY_WELCOME_FOOTER: false,
-               DISPLAY_WELCOME_PAGE_ADDITIONAL_CARD: false,
-               DISPLAY_WELCOME_PAGE_CONTENT: false,
-               DISPLAY_WELCOME_PAGE_TOOLBAR_ADDITIONAL_CONTENT: false,
-               SHOW_CHROME_EXTENSION_BANNER: false,
-               TOOLBAR_ALWAYS_VISIBLE: false,
-               HIDE_INVITE_MORE_HEADER: true,
-               TOOLBAR_BUTTONS: [
-                'microphone', 'camera', 'closedcaptions', 
-                  'profile', 'chat', 
-                 'raisehand',
-                'videoquality', 'filmstrip', 
-                'tileview', 'videobackgroundblur',  'mute-everyone'
-                
-               ],
-              },
-         };
-         socket.emit("communicate", {"user":user,"roomname":room_name ,"id": myid, "sendto": data.id });
-       
          $('#connect').click(function(){
-          const api = new JitsiMeetExternalAPI(domain, options); 
-         $('#connect').hide();
+          const options = {
+            roomName: room_name,
+            width: w/4,
+            height: h/3,
+            parentNode: document.querySelector('#meet'),
+            userInfo: {
+              email: 'email@jitsiexamplemail.com',
+              displayName: user
+            },
+            configOverwrite: { 
+              enableWelcomePage: false,
+              disableProfile: true,
+              // Hides lobby button
+              hideLobbyButton: false,
+              prejoinPageEnabled: false,
+          
+              // Require users to always specify a display name.
+              requireDisplayName: false
+              },
+              interfaceConfigOverwrite: {
+                 DEFAULT_BACKGROUND: '#383838',
+                 DISABLE_DOMINANT_SPEAKER_INDICATOR: true,
+                 DISPLAY_WELCOME_FOOTER: false,
+                 DISPLAY_WELCOME_PAGE_ADDITIONAL_CARD: false,
+                 DISPLAY_WELCOME_PAGE_CONTENT: false,
+                 DISPLAY_WELCOME_PAGE_TOOLBAR_ADDITIONAL_CONTENT: false,
+                 SHOW_CHROME_EXTENSION_BANNER: false,
+                 TOOLBAR_ALWAYS_VISIBLE: false,
+                 HIDE_INVITE_MORE_HEADER: true,
+                 TOOLBAR_BUTTONS: [
+                  'microphone', 'camera', 'closedcaptions', 
+                    'profile', 'chat', 
+                   'raisehand',
+                  'videoquality', 'filmstrip', 
+                  'tileview', 'videobackgroundblur',  'mute-everyone'
+                  
+                 ],
+                },
+           };
+           socket.emit("communicate", {"user":user,"roomname":room_name ,"id": myid, "sendto": data.id });
+           if (!api){
+             api = new JitsiMeetExternalAPI(domain, options); 
+           }
+          
+           $('#connect').hide();
 
-         }
-
-         );
+         });
      
     //     const iframe = api.getIFrame();
            
@@ -123,8 +128,16 @@ socket.on("connect", () => {
     })
     .bind("HitOff", function(comp) {
         Crafty.log("Collision with Solid entity ended.");
-        $("#meet").empty();         
         $('#connect').hide();
+        if( api ){
+          $('#disconnect').show().click(function(){
+            $("#meet").empty();  
+            api = null  
+            $('#disconnect').hide();             
+          })
+        }
+  
+       
       
     })
     .bind("Move", function(){
