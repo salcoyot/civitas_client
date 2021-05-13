@@ -18,7 +18,7 @@ socket.on("connect", () => {
   }); 
   socket.on("newuser", (data) => {
     console.log("new user "+data.user);
-       users.push(
+    users.push(
     Crafty.e("2D, DOM, player, Fourway, Collision, Solid, Controllable").setName(data.user).attr({
         x: data.position.x,
         y: data.position.y,
@@ -48,10 +48,10 @@ socket.on("connect", () => {
       
      }) 
   
-    .addComponent("2D, DOM, Text, Motion")
-    .attr({ x: 100, y: 100, vx: 10 })
+    /* .addComponent("2D, DOM, Text, Motion")
+    //.attr({ x: 100, y: 100, vx: 10 })
     .text(function () { return this.getName() })
-    .textColor('white')
+    .textColor('white') */
     .defineField("socketId", function(){
       this._customData = data.id;
       return this._customData;
@@ -148,6 +148,7 @@ socket.on("connect", () => {
       this.textCreate.textColor('red') */
     })
 
+
     );
     console.log("users")
     console.log(users)
@@ -218,13 +219,13 @@ socket.on("message", data => {
   $('#chat').append("<b>"+data.user+":</b> "+data.message +"<br>");
 });
 socket.on("imnothere", data => {
-  /* console.log("users1")
-  console.log(users)
-  console.log("im not here anymore : "+data.id); */
+  // console.log("users1")
+  // console.log(users)
+  // console.log("im not here anymore : "+data.id);
   //erase = users.find(socketId => socketId == data.id);
   erase = users.find( user => user.socketId === data.id);
-/*   console.log(erase)
-  console.log(erase.socketId) */
+  console.log(erase)
+  console.log(erase.socketId) 
   erase.destroy()
   users.splice(users.indexOf(erase), 1)
 /*   console.log(data);
@@ -234,12 +235,10 @@ socket.on("imnothere", data => {
 });
 
 socket.on("position", (data) => {
-         
-        resultado = users.find( user => user._entityName === data.user );
+      console.log(data)    
+      resultado = users.find( user => user._entityName === data.user );
 
-      console.log("position");
-      console.log(resultado);
-       resultado.x = data.position.x;
+      resultado.x = data.position.x;
       resultado.y = data.position.y;
     //   console.log("el usurio no esta agregado");
       resultado = null;
@@ -473,7 +472,7 @@ $('#myModal').modal('show')
      this.animate("moving", 0);
     //this.attr({w:50,h:100});
   }).bind('KeyDown', function(e) {
-    socket.emit("position", {"user":user,"position":{"x":this.x, "y":this.y}});
+    socket.emit("position", {"user":me._entityName,"position":{"x":this.x, "y":this.y}});
 
     if(e.key == Crafty.keys.LEFT_ARROW) {
       //this.x = this.x - 1;
