@@ -23,11 +23,8 @@ socket.on("connect", () => {
         x: data.position.x,
         y: data.position.y,
 
-    }).defineField("textCreate", function(){
-     /*  console.log("textCreate")
-      console.log(this.getName())
-       */
-       
+    })/* .defineField("textCreate", function(){
+            
       
       const nombre = Crafty.e("2D, DOM, Text,  Motion")
       .attr({ x: data.position.x, y: data.position.y, w:100 }) 
@@ -46,7 +43,7 @@ socket.on("connect", () => {
       this._customData = newValue;
 
       
-     }) 
+     })  */
   
     /* .addComponent("2D, DOM, Text, Motion")
     //.attr({ x: 100, y: 100, vx: 10 })
