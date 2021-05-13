@@ -3,6 +3,8 @@ var h = window.innerHeight;
 const socket = io("https://civitas-kechw.ondigitalocean.app");
 var users =[];
 api = null;
+erase = null;
+resultado = null;
 const domain = 'meet.jit.si';
 var myid ="";
  
@@ -20,8 +22,8 @@ socket.on("connect", () => {
     console.log("new user "+data.user);
     users.push(
     Crafty.e("2D, DOM, player, Fourway, Collision, Solid, Controllable").setName(data.user).attr({
-        x: data.position.x,
-        y: data.position.y,
+       /*  x: data.position.x,
+        y: data.position.y, */
 
     })/* .defineField("textCreate", function(){
             
@@ -45,10 +47,10 @@ socket.on("connect", () => {
       
      })  */
   
-    /* .addComponent("2D, DOM, Text, Motion")
-    //.attr({ x: 100, y: 100, vx: 10 })
+     .addComponent("2D, DOM, Text, Motion")
+     .attr({ x: 100, y: 100})
     .text(function () { return this.getName() })
-    .textColor('white') */
+    .textColor('white') 
     .defineField("socketId", function(){
       this._customData = data.id;
       return this._customData;
@@ -155,6 +157,19 @@ socket.on("connect", () => {
   }
   /*   people_entity.x = data.position.x;
     people_entity.y = data.position.y; */
+    for (i = 0; i < users; i++){
+      Crafty.e("2D, DOM, Text,  Motion")
+      .attr({ x: user.x, y: user.y -10, w:100 }) 
+      .text(function () {    
+        this.x = user.x;
+        this.y = user.y-10;
+        return user._entityName  })
+      .textColor('white')
+      .textAlign("left")
+      .textFont({ size: '9px' })
+      .unselectable()
+      .dynamicTextGeneration(true);
+    }
   });
 socket.on("newcomm", data => {
   console.log("new comm");
