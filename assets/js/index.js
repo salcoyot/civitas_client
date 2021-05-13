@@ -6,6 +6,7 @@ var users =[];
 const domain = 'meet.jit.si';
 var myid ="";
  
+$('#connect').hide();
 
 socket.on("connect", () => {
   console.log("succefull connect https://civitas-kechw.ondigitalocean.app");
@@ -59,13 +60,14 @@ socket.on("connect", () => {
     //.dynamicTextGeneration(true) 
     .checkHits('Solid') // check for collisions with entities that have the Solid component in each frame
     .bind("HitOn", function(hitData) {
-
-      var room_name= 'Civitas_meet_'+me.getName();
+      $('#connect').show();
+      $('#connect > i').html(hitData[0].obj.getName())
+            var room_name= 'Civitas_meet_'+me.getName();
       $("#meet").empty();
         Crafty.log("Collision with Solid entity occurred for the first time.");
         //Crafty.log(hitData);
         Crafty.log("name.");
-        Crafty.log(hitData[0].obj.getName()  );
+        Crafty.log(hitData[0].obj );
         const options = {
           roomName: room_name,
           width: w/4,
@@ -106,14 +108,24 @@ socket.on("connect", () => {
               },
          };
          socket.emit("communicate", {"user":user,"roomname":room_name ,"id": myid, "sendto": data.id });
-        const api = new JitsiMeetExternalAPI(domain, options); 
+       
+         $('#connect').click(function(){
+          const api = new JitsiMeetExternalAPI(domain, options); 
+         $('#connect').hide();
+
+         }
+
+         );
+     
     //     const iframe = api.getIFrame();
            
     
     })
     .bind("HitOff", function(comp) {
         Crafty.log("Collision with Solid entity ended.");
-        $("#meet").empty();
+        $("#meet").empty();         
+        $('#connect').hide();
+      
     })
     .bind("Move", function(){
      /*  console.log("this.textCreate")
